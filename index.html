@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSX Fair Value Ledger — prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF7;
+    --panel:#FFFFFF;
+    --ink:#16231D;
+    --muted:#6B6A62;
+    --rule:#DBD9CD;
+    --accent:#2F6F62;
+    --accent-soft:#E4EEEA;
+    --accent2:#9B6A2F;
+    --good:#2E6B4A;
+    --good-soft:#E7F0EA;
+    --fair:#8C611C;
+    --fair-soft:#F3ECDD;
+    --bad:#8B2E22;
+    --bad-soft:#F5E7E3;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+    line-height:1.5;
+    font-feature-settings:"tnum" 1;
+  }
+  .wrap{
+    max-width:780px;
+    margin:0 auto;
+    padding:40px 20px 64px;
+  }
+
+  header{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:20px;
+    margin-bottom:28px;
+  }
+  h1{
+    font-family:'Source Serif 4', Georgia, serif;
+    font-weight:700;
+    font-size:2rem;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.95rem;
+    max-width:58ch;
+  }
+  .meta-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:16px;
+    margin-top:16px;
+    flex-wrap:wrap;
+  }
+  .snapshot-date{ font-size:0.82rem; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .tally{ display:flex; gap:14px; font-size:0.82rem; }
+  .tally span{ white-space:nowrap; }
+  .dot{ display:inline-block; width:8px;height:8px; border-radius:50%; margin-right:5px; }
+
+  details.glossary{
+    border:1px solid var(--rule);
+    border-radius:2px;
+    padding:12px 16px;
+    margin-bottom:28px;
+    background:var(--panel);
+  }
+  details.glossary summary{ cursor:pointer; font-size:0.88rem; font-weight:500; color:var(--accent); }
+  details.glossary summary:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .glossary-grid{ margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:10px 20px; font-size:0.85rem; color:var(--muted); }
+  .glossary-grid dt{ color:var(--ink); font-weight:600; }
+  .glossary-grid dd{ margin:2px 0 0; }
+
+  .sector-filter{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px; }
+  .sector-filter button{
+    font-family:inherit; font-size:0.78rem; background:none;
+    border:1px solid var(--rule); padding:5px 12px; border-radius:14px;
+    cursor:pointer; color:var(--muted);
+  }
+  .sector-filter button.active{ background:var(--accent-soft); color:var(--accent); border-color:var(--accent); font-weight:600; }
+  .sector-filter button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .industry-snapshot{
+    background:var(--panel); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    padding:14px 18px; margin-bottom:18px;
+  }
+  .industry-snapshot h3{ font-family:'Source Serif 4', Georgia, serif; font-size:1.05rem; margin:0 0 8px; }
+  .industry-snapshot .snap-row{ font-size:0.85rem; color:var(--muted); margin-top:4px; }
+  .industry-snapshot .snap-row strong{ color:var(--ink); font-weight:600; }
+
+  .stock{
+    background:var(--panel);
+    border:1px solid var(--rule);
+    border-left:4px solid var(--rule);
+    padding:20px 22px;
+    margin-bottom:18px;
+  }
+  .stock[data-verdict="Undervalued"]{ border-left-color:var(--good); }
+  .stock[data-verdict="Fairly priced"]{ border-left-color:var(--fair); }
+  .stock[data-verdict="Overvalued"]{ border-left-color:var(--bad); }
+
+  .stock-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+  .ticker-block h2{ font-family:'Source Serif 4', Georgia, serif; font-size:1.4rem; margin:0; display:inline; }
+  .sector-tag{ font-size:0.75rem; color:var(--muted); display:block; margin-top:2px; }
+  .price-block{ text-align:right; }
+  .price{ font-size:1.3rem; font-weight:600; font-variant-numeric:tabular-nums; }
+  .price small{ font-size:0.7rem; color:var(--muted); font-weight:400; }
+  .badge{ display:inline-block; margin-top:4px; font-size:0.72rem; font-weight:600; padding:3px 9px; border-radius:20px; }
+  .badge.Undervalued{ background:var(--good-soft); color:var(--good); }
+  .badge.Fairly-priced{ background:var(--fair-soft); color:var(--fair); }
+  .badge.Overvalued{ background:var(--bad-soft); color:var(--bad); }
+
+  .range-wrap{ margin:18px 0 6px; }
+  .range-track{ position:relative; height:6px; background:var(--rule); border-radius:3px; }
+  .range-fair{ position:absolute; top:0; height:6px; background:var(--accent); opacity:0.35; border-radius:3px; }
+  .range-price{ position:absolute; top:-4px; width:2px; height:14px; background:var(--ink); }
+  .range-price::after{
+    content:attr(data-label); position:absolute; top:16px; left:50%;
+    transform:translateX(-50%); font-size:0.68rem; color:var(--ink); white-space:nowrap; font-weight:600;
+  }
+  .range-labels{ display:flex; justify-content:space-between; font-size:0.68rem; color:var(--muted); margin-top:26px; }
+
+  .metrics{
+    display:grid; grid-template-columns:repeat(5,1fr);
+    border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    margin-top:16px;
+  }
+  .metric{ padding:12px 10px; border-right:1px solid var(--rule); }
+  .metric:last-child{ border-right:none; }
+  .metric .label{ font-size:0.68rem; color:var(--muted); }
+  .metric .value{ font-size:1rem; font-weight:600; font-variant-numeric:tabular-nums; margin-top:2px; }
+  .metric .vs{ font-size:0.7rem; color:var(--muted); margin-top:2px; font-variant-numeric:tabular-nums; }
+  .metric .vs.up{ color:var(--bad); }
+  .metric .vs.down{ color:var(--good); }
+  .metric .vs.na{ font-style:italic; }
+
+  .read{ margin-top:16px; font-size:0.9rem; color:var(--ink); line-height:1.55; }
+  .de-note{ margin-top:8px; font-size:0.78rem; color:var(--muted); font-style:italic; }
+
+  .section-caption{
+    font-size:0.72rem; color:var(--muted); margin:18px 0 8px;
+    border-top:1px solid var(--rule); padding-top:12px;
+    display:flex; align-items:center; gap:5px; flex-wrap:wrap;
+  }
+  .cap-dot{ display:inline-block; width:7px; height:7px; border-radius:50%; margin-left:6px; }
+  .chart-block{ margin-top:2px; }
+  svg.chart{ width:100%; height:118px; display:block; }
+  .growth-note{ font-size:0.85rem; margin-top:6px; color:var(--ink); }
+
+  .tf-toggle{ display:flex; gap:6px; margin-bottom:8px; }
+  .tf-toggle button{
+    font-family:inherit; font-size:0.72rem; background:none;
+    border:1px solid var(--rule); padding:3px 10px; border-radius:12px;
+    cursor:pointer; color:var(--muted);
+  }
+  .tf-toggle button.active{ background:var(--accent-soft); color:var(--accent); border-color:var(--accent); font-weight:600; }
+  .tf-toggle button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .price-change{ font-size:0.78rem; margin-top:4px; }
+  .price-change.up{ color:var(--good); }
+  .price-change.down{ color:var(--bad); }
+
+  footer{ margin-top:32px; padding-top:20px; border-top:1px solid var(--rule); font-size:0.78rem; color:var(--muted); }
+  footer p{ margin:0 0 8px; }
+
+  @media (max-width:560px){
+    .metrics{ grid-template-columns:repeat(2,1fr); }
+    .metric:nth-child(2n){ border-right:none; }
+    .metric{ border-bottom:1px solid var(--rule); }
+    .price-block{ text-align:left; }
+    .glossary-grid{ grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>PSX Fair Value Ledger</h1>
+    <p>A plain-language read on whether a stock is cheap, fair, or expensive versus its own sector — P/E, P/B, ROE, leverage, dividend yield, and now 5-year revenue vs opex growth and a price trend. Prototype covering four PSX benchmark names.</p>
+    <div class="meta-row">
+      <span class="snapshot-date" id="asOf">Snapshot data</span>
+      <div class="tally" id="tally"></div>
+    </div>
+  </header>
+
+  <details class="glossary">
+    <summary>New to these terms? Quick definitions</summary>
+    <dl class="glossary-grid">
+      <div><dt>P/E ratio</dt><dd>Price ÷ earnings per share. Lower usually means cheaper, relative to peers.</dd></div>
+      <div><dt>P/B ratio</dt><dd>Price ÷ book value per share. What you pay versus the company's net assets.</dd></div>
+      <div><dt>ROE</dt><dd>Return on equity. How efficiently the company turns shareholder capital into profit.</dd></div>
+      <div><dt>D/E</dt><dd>Debt ÷ equity. Higher means more leverage, and more risk if rates or earnings turn.</dd></div>
+      <div><dt>Revenue vs opex growth</dt><dd>If costs grow faster than sales, margins shrink even while sales look healthy.</dd></div>
+      <div><dt>CAGR</dt><dd>Compound annual growth rate — the smoothed yearly growth rate over several years.</dd></div>
+    </dl>
+  </details>
+
+  <div id="sectorFilter" class="sector-filter"></div>
+  <div id="industrySnapshot"></div>
+
+  <div id="stocks"></div>
+
+  <footer>
+    <p>Snapshot data captured late August 2026 for four names (OGDC, LUCK, HBL, FFC) to test this design — not a live feed yet. Five-year revenue/opex figures are anchored to the latest disclosed annual results; earlier years are approximate until the live pipeline pulls full financial statements. Daily price moves shown under 1W/1M are illustrative, not real ticks. Educational use only, not investment advice.</p>
+    <p>To make this live: swap the inline <code>STOCKS</code> array in the script for a fetch of <code>data.json</code>, and generate that file on a schedule with a GitHub Action that scrapes PSX price and fundamentals data. The page already tries <code>data.json</code> first and falls back to the snapshot below.</p>
+  </footer>
+</div>
+
+<script>
+// Snapshot data. Replace this array's source with a fetch('./data.json')
+// once the GitHub Action scraper is wired up — the loader below already
+// prefers data.json when it exists.
+const STOCKS = [
+  {
+    ticker:"OGDC", name:"Oil & Gas Development Co.", sector:"Oil & Gas E&P",
+    price:326, eps:36.17, pe:9.01, sectorPE:7.5,
+    bvps:318.7, pb:1.02, sectorPB:1.3,
+    roe:11.35, sectorROE:13,
+    divYield:4.83,
+    de:0.00, sectorDE:0.30, deNote:null,
+    financials:[
+      {year:2021, revenue:210, opex:160, netIncome:50},
+      {year:2022, revenue:290, opex:205, netIncome:85},
+      {year:2023, revenue:330, opex:230, netIncome:100},
+      {year:2024, revenue:365, opex:250, netIncome:115},
+      {year:2025, revenue:390.4, opex:234.8, netIncome:155.56}
+    ],
+    price5Y:[
+      {year:2021, price:180}, {year:2022, price:210}, {year:2023, price:230},
+      {year:2024, price:259}, {year:2025, price:326}
+    ]
+  },
+  {
+    ticker:"LUCK", name:"Lucky Cement Ltd.", sector:"Cement",
+    price:443, eps:52.53, pe:8.44, sectorPE:9.0,
+    bvps:216.3, pb:2.05, sectorPB:2.0,
+    roe:24.19, sectorROE:20,
+    divYield:0.91,
+    de:0.48, sectorDE:0.60, deNote:null,
+    financials:[
+      {year:2021, revenue:180, opex:160, netIncome:20},
+      {year:2022, revenue:230, opex:212, netIncome:18},
+      {year:2023, revenue:310, opex:278, netIncome:32},
+      {year:2024, revenue:411.0, opex:345.4, netIncome:65.57},
+      {year:2025, revenue:449.63, opex:372.67, netIncome:76.96}
+    ],
+    price5Y:[
+      {year:2021, price:120}, {year:2022, price:135}, {year:2023, price:150},
+      {year:2024, price:165}, {year:2025, price:443}
+    ]
+  },
+  {
+    ticker:"HBL", name:"Habib Bank Ltd.", sector:"Commercial Banking",
+    price:356, eps:44.79, pe:7.94, sectorPE:6.5,
+    bvps:296.9, pb:1.20, sectorPB:1.1,
+    roe:15.06, sectorROE:16,
+    divYield:5.63,
+    de:null, sectorDE:null,
+    deNote:"Leverage ratios work differently for banks — deposits count as liabilities, so D/E isn't a useful safety signal here. Capital adequacy is the better check.",
+    financials:[
+      {year:2021, revenue:180, opex:155, netIncome:25},
+      {year:2022, revenue:220, opex:185, netIncome:35},
+      {year:2023, revenue:270, opex:225, netIncome:45},
+      {year:2024, revenue:315.53, opex:257.73, netIncome:57.80},
+      {year:2025, revenue:353.73, opex:288.02, netIncome:65.71}
+    ],
+    price5Y:[
+      {year:2021, price:110}, {year:2022, price:130}, {year:2023, price:150},
+      {year:2024, price:172}, {year:2025, price:356}
+    ]
+  },
+  {
+    ticker:"FFC", name:"Fauji Fertilizer Co.", sector:"Fertilizer",
+    price:553, eps:61.41, pe:9.00, sectorPE:8.5,
+    bvps:172.5, pb:3.20, sectorPB:3.0,
+    roe:34.35, sectorROE:32,
+    divYield:7.34,
+    de:0.25, sectorDE:0.40, deNote:null,
+    financials:[
+      {year:2021, revenue:220, opex:175, netIncome:45},
+      {year:2022, revenue:280, opex:215, netIncome:65},
+      {year:2023, revenue:340, opex:270, netIncome:70},
+      {year:2024, revenue:411.25, opex:326.88, netIncome:84.37},
+      {year:2025, revenue:517.66, opex:432.30, netIncome:85.36}
+    ],
+    price5Y:[
+      {year:2021, price:300}, {year:2022, price:330}, {year:2023, price:355},
+      {year:2024, price:382}, {year:2025, price:553}
+    ]
+  },
+  {
+    ticker:"MEBL", name:"Meezan Bank Ltd.", sector:"Islamic Banking",
+    price:497, eps:50.20, pe:9.90, sectorPE:6.5,
+    bvps:147.1, pb:3.38, sectorPB:1.1,
+    roe:34.11, sectorROE:16,
+    divYield:5.44,
+    de:null, sectorDE:null,
+    deNote:"Leverage ratios work differently for banks — deposits count as liabilities, so D/E isn't a useful safety signal here. Capital adequacy is the better check.",
+    financials:[
+      {year:2021, revenue:190, opex:145, netIncome:45},
+      {year:2022, revenue:225, opex:163, netIncome:62},
+      {year:2023, revenue:265, opex:183, netIncome:82},
+      {year:2024, revenue:309.97, opex:208.47, netIncome:101.50},
+      {year:2025, revenue:291.22, opex:200.29, netIncome:90.93}
+    ],
+    price5Y:[
+      {year:2021, price:150}, {year:2022, price:180}, {year:2023, price:210},
+      {year:2024, price:271}, {year:2025, price:497}
+    ]
+  },
+  {
+    ticker:"UBL", name:"United Bank Ltd.", sector:"Commercial Banking",
+    price:412, eps:50.86, pe:8.10, sectorPE:6.5,
+    bvps:171.9, pb:2.40, sectorPB:1.1,
+    roe:32.88, sectorROE:16,
+    divYield:7.76,
+    de:null, sectorDE:null,
+    deNote:"Leverage ratios work differently for banks — deposits count as liabilities, so D/E isn't a useful safety signal here. Capital adequacy is the better check.",
+    financials:[
+      {year:2021, revenue:104.5, opex:77.5, netIncome:27},
+      {year:2022, revenue:138.8, opex:93.8, netIncome:45},
+      {year:2023, revenue:184.3, opex:119.3, netIncome:65},
+      {year:2024, revenue:244.47, opex:163.95, netIncome:80.52},
+      {year:2025, revenue:428.91, opex:302.79, netIncome:126.12}
+    ],
+    price5Y:[
+      {year:2021, price:100}, {year:2022, price:120}, {year:2023, price:150},
+      {year:2024, price:182}, {year:2025, price:412}
+    ]
+  }
+];
+
+// ---------- valuation calc ----------
+function calc(s){
+  const fairPE = s.sectorPE * s.eps;
+  const fairPB = s.sectorPB * s.bvps;
+  const fairLow = Math.min(fairPE, fairPB);
+  const fairHigh = Math.max(fairPE, fairPB);
+  const avgFair = (fairPE + fairPB) / 2;
+  const deltaPct = ((s.price - avgFair) / avgFair) * 100;
+  let verdict;
+  if (deltaPct < -10) verdict = "Undervalued";
+  else if (deltaPct > 10) verdict = "Overvalued";
+  else verdict = "Fairly priced";
+  const qualityGood = s.roe >= s.sectorROE;
+  return { fairPE, fairPB, fairLow, fairHigh, avgFair, deltaPct, verdict, qualityGood };
+}
+
+function cagr(first, last, periods){ return (Math.pow(last/first, 1/periods) - 1) * 100; }
+
+function growthCalc(s){
+  const f = s.financials;
+  const n = f.length - 1;
+  const revCagr = cagr(f[0].revenue, f[n].revenue, n);
+  const opexCagr = cagr(f[0].opex, f[n].opex, n);
+  const marginState = (revCagr - opexCagr) > 1 ? "improving" : (opexCagr - revCagr) > 1 ? "under pressure" : "roughly stable";
+  return { revCagr, opexCagr, marginState };
+}
+
+function plainRead(s, c, g){
+  const parts = [];
+  if (c.verdict === "Undervalued")
+    parts.push(`${s.ticker} is trading below what its P/E and P/B against the ${s.sector} sector suggest it's worth.`);
+  else if (c.verdict === "Overvalued")
+    parts.push(`${s.ticker} is trading above what sector multiples suggest is fair — you're paying a premium here.`);
+  else
+    parts.push(`${s.ticker} is trading close to what sector multiples suggest is fair.`);
+
+  if (c.qualityGood)
+    parts.push(`Its ${s.roe.toFixed(1)}% ROE beats the sector's ${s.sectorROE}%, which helps justify the price.`);
+  else
+    parts.push(`Its ${s.roe.toFixed(1)}% ROE trails the sector's ${s.sectorROE}%, so there's less quality cushion if sentiment turns.`);
+
+  if (g.marginState === "under pressure")
+    parts.push(`Revenue has grown ~${g.revCagr.toFixed(1)}%/yr over 5 years but opex grew ~${g.opexCagr.toFixed(1)}%/yr — margins have been under pressure despite the sales growth.`);
+  else if (g.marginState === "improving")
+    parts.push(`Revenue has grown ~${g.revCagr.toFixed(1)}%/yr over 5 years while opex grew slower at ~${g.opexCagr.toFixed(1)}%/yr — margins have been improving.`);
+
+  if (s.divYield >= 5)
+    parts.push(`The ${s.divYield.toFixed(2)}% dividend yield adds an income cushion while you hold.`);
+
+  return parts.join(" ");
+}
+
+function vsCell(label, value, sectorValue, unit, higherIsBetter, isNA){
+  if (isNA){
+    return `<div class="metric">
+      <div class="label">${label}</div>
+      <div class="value">n/a</div>
+      <div class="vs na">see note below</div>
+    </div>`;
+  }
+  const diff = value - sectorValue;
+  const better = higherIsBetter ? diff >= 0 : diff <= 0;
+  const cls = better ? "down" : "up";
+  const arrow = diff >= 0 ? "▲" : "▼";
+  return `<div class="metric">
+    <div class="label">${label}</div>
+    <div class="value">${value.toFixed(2)}${unit}</div>
+    <div class="vs ${cls}">${arrow} sector ${sectorValue.toFixed(2)}${unit}</div>
+  </div>`;
+}
+
+// ---------- chart helpers ----------
+function pathString(coords){
+  return coords.map((c,i)=> (i===0?"M":"L") + c[0].toFixed(1) + "," + c[1].toFixed(1)).join(" ");
+}
+
+// pick a readable subset of tick indices so labels never overlap, however many points there are
+function tickIndices(n){
+  if (n <= 6) return Array.from({length:n}, (_,i)=>i);
+  const idx = new Set([0, n-1]);
+  for (let k=1; k<4; k++) idx.add(Math.round(k*(n-1)/4));
+  return Array.from(idx).sort((a,b)=>a-b);
+}
+
+// builds one self-contained SVG chart: line(s), point markers, value callouts at the
+// endpoints, and x-axis tick labels drawn inside the SVG so they never fall out of sync.
+function buildChart({ series, seriesB=null, colorA, colorB, labels, fmtA, fmtB, unitLabel }){
+  const w=320, h=132;
+  const padTop=18, padBottom=26, padSide=14;
+  const plotTop=padTop, plotBottom=h-padBottom, plotH=plotBottom-plotTop;
+  const plotLeft=padSide, plotRight=w-padSide, plotW=plotRight-plotLeft;
+  const n = series.length;
+  const all = seriesB ? series.concat(seriesB) : series;
+  const min = Math.min(...all), max = Math.max(...all);
+  const range = (max-min) || 1;
+  const x = i => plotLeft + i*(plotW/(n-1));
+  const y = v => plotTop + (1-(v-min)/range)*plotH;
+
+  const coordsA = series.map((v,i)=>[x(i), y(v)]);
+  const coordsB = seriesB ? seriesB.map((v,i)=>[x(i), y(v)]) : null;
+
+  const dots = (coords, color) => coords.map(([cx,cy]) =>
+    `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="2.4" fill="${color}" stroke="#fff" stroke-width="0.8"/>`
+  ).join("");
+
+  const ticks = tickIndices(n).map(i =>
+    `<text x="${x(i).toFixed(1)}" y="${h-8}" font-size="9" text-anchor="middle" fill="var(--muted)">${labels[i]}</text>`
+  ).join("");
+
+  const labelA0 = `<text x="${coordsA[0][0].toFixed(1)}" y="${(coordsA[0][1]-7).toFixed(1)}" font-size="9" font-weight="600" text-anchor="start" fill="${colorA}">${fmtA(series[0])}</text>`;
+  const labelA1 = `<text x="${coordsA[n-1][0].toFixed(1)}" y="${(coordsA[n-1][1]-7).toFixed(1)}" font-size="9" font-weight="600" text-anchor="end" fill="${colorA}">${fmtA(series[n-1])}</text>`;
+  let labelB0="", labelB1="", pathB="", dotsB="";
+  if (seriesB){
+    labelB0 = `<text x="${coordsB[0][0].toFixed(1)}" y="${(coordsB[0][1]+13).toFixed(1)}" font-size="9" font-weight="600" text-anchor="start" fill="${colorB}">${fmtB(seriesB[0])}</text>`;
+    labelB1 = `<text x="${coordsB[n-1][0].toFixed(1)}" y="${(coordsB[n-1][1]+13).toFixed(1)}" font-size="9" font-weight="600" text-anchor="end" fill="${colorB}">${fmtB(seriesB[n-1])}</text>`;
+    pathB = `<path d="${pathString(coordsB)}" fill="none" stroke="${colorB}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>`;
+    dotsB = dots(coordsB, colorB);
+  }
+  const unitText = unitLabel ? `<text x="${plotLeft}" y="11" font-size="8" fill="var(--muted)">${unitLabel}</text>` : "";
+
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <line x1="${plotLeft}" y1="${plotBottom}" x2="${plotRight}" y2="${plotBottom}" stroke="var(--rule)" stroke-width="1"/>
+    ${unitText}
+    ${pathB}
+    <path d="${pathString(coordsA)}" fill="none" stroke="${colorA}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+    ${dotsB}${dots(coordsA, colorA)}
+    ${labelB0}${labelB1}${labelA0}${labelA1}
+    ${ticks}
+  </svg>`;
+}
+
+// seeded PRNG so illustrative daily/weekly price moves are stable across reloads
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return h; }
+
+function genWalk(seedStr, n, endValue, volatility){
+  const rand = mulberry32(hashStr(seedStr));
+  const vals = [1];
+  for(let i=1;i<n;i++){
+    const r = (rand()-0.5) * volatility;
+    vals.push(Math.max(0.01, vals[i-1]*(1+r)));
+  }
+  const scale = endValue / vals[vals.length-1];
+  return vals.map(v => v*scale);
+}
+
+function pricePoints(s, timeframe){
+  if (s.priceHistory && s.priceHistory[timeframe] && s.priceHistory[timeframe].length){
+    return s.priceHistory[timeframe].map(p=>p.price);
+  }
+  if (timeframe === "5Y") return s.price5Y.map(p=>p.price);
+  if (timeframe === "1M") return genWalk(s.ticker+"1M", 22, s.price, 0.028);
+  if (timeframe === "1W") return genWalk(s.ticker+"1W", 5, s.price, 0.018);
+}
+
+function priceLabels(s, timeframe, n){
+  if (s.priceHistory && s.priceHistory[timeframe] && s.priceHistory[timeframe].length){
+    return s.priceHistory[timeframe].map(p=>p.label);
+  }
+  if (timeframe === "5Y") return s.price5Y.map(p=>String(p.year));
+  return Array.from({length:n}, (_,i)=> i===n-1 ? "today" : (n-1-i)+"d ago");
+}
+
+// ---------- render ----------
+function renderStock(s){
+  const c = calc(s);
+  const g = growthCalc(s);
+  const padding = (c.fairHigh - c.fairLow) * 0.6 || c.fairHigh * 0.15;
+  const scaleMin = Math.min(c.fairLow, s.price) - padding;
+  const scaleMax = Math.max(c.fairHigh, s.price) + padding;
+  const pct = v => ((v - scaleMin) / (scaleMax - scaleMin)) * 100;
+
+  const el = document.createElement("div");
+  el.className = "stock";
+  el.setAttribute("data-verdict", c.verdict);
+
+  const revSeries = s.financials.map(f=>f.revenue);
+  const opexSeries = s.financials.map(f=>f.opex);
+  const years = s.financials.map(f=>f.year);
+
+  el.innerHTML = `
+    <div class="stock-top">
+      <div class="ticker-block">
+        <h2>${s.ticker}</h2>
+        <span class="sector-tag">${s.name} · ${s.sector}</span>
+      </div>
+      <div class="price-block">
+        <div class="price">PKR ${s.price} <small>current</small></div>
+        <span class="badge ${c.verdict.replace(" ","-")}">${c.verdict}</span>
+      </div>
+    </div>
+
+    <div class="range-wrap">
+      <div class="range-track">
+        <div class="range-fair" style="left:${pct(c.fairLow)}%; width:${pct(c.fairHigh)-pct(c.fairLow)}%;"></div>
+        <div class="range-price" data-label="price" style="left:${pct(s.price)}%;"></div>
+      </div>
+      <div class="range-labels">
+        <span>PKR ${Math.round(c.fairLow)} fair low</span>
+        <span>PKR ${Math.round(c.fairHigh)} fair high</span>
+      </div>
+    </div>
+
+    <div class="metrics">
+      ${vsCell("P/E", s.pe, s.sectorPE, "×", false, false)}
+      ${vsCell("P/B", s.pb, s.sectorPB, "×", false, false)}
+      ${vsCell("ROE", s.roe, s.sectorROE, "%", true, false)}
+      <div class="metric"><div class="label">Div yield</div><div class="value">${s.divYield.toFixed(2)}%</div><div class="vs na">income, not compared</div></div>
+      ${s.de === null ? vsCell("D/E", 0,0,"",false,true) : vsCell("D/E", s.de, s.sectorDE, "×", false, false)}
+    </div>
+
+    <div class="section-caption">Revenue vs operating expenses — 5 years <span class="cap-dot" style="background:var(--accent)"></span>Revenue <span class="cap-dot" style="background:var(--accent2)"></span>Opex</div>
+    <div class="chart-block growth-chart"></div>
+    <p class="growth-note">Revenue growing ~${g.revCagr.toFixed(1)}%/yr vs opex ~${g.opexCagr.toFixed(1)}%/yr &mdash; margins ${g.marginState}.</p>
+
+    <div class="section-caption">Price trend</div>
+    <div class="tf-toggle" role="group" aria-label="Price trend timeframe">
+      <button data-tf="1W">1W</button>
+      <button data-tf="1M">1M</button>
+      <button data-tf="5Y" class="active">5Y</button>
+    </div>
+    <div class="chart-block price-chart"></div>
+    <div class="price-change"></div>
+
+    <p class="read">${plainRead(s, c, g)}</p>
+    ${s.deNote ? `<p class="de-note">${s.deNote}</p>` : ""}
+  `;
+
+  el.querySelector(".growth-chart").innerHTML = buildChart({
+    series: revSeries, seriesB: opexSeries,
+    colorA: "var(--accent)", colorB: "var(--accent2)",
+    labels: years.map(String),
+    fmtA: v => Math.round(v)+"bn", fmtB: v => Math.round(v)+"bn",
+    unitLabel: "PKR bn"
+  });
+
+  function renderPriceChart(timeframe){
+    const pts = pricePoints(s, timeframe);
+    const n = pts.length;
+    const isReal = !!(s.priceHistory && s.priceHistory[timeframe] && s.priceHistory[timeframe].length);
+    const labels = priceLabels(s, timeframe, n);
+    el.querySelector(".price-chart").innerHTML = buildChart({
+      series: pts, colorA: "var(--ink)", labels,
+      fmtA: v => "₨"+Math.round(v)
+    });
+    const first = pts[0], last = pts[n-1];
+    const changePct = ((last-first)/first)*100;
+    const changeEl = el.querySelector(".price-change");
+    changeEl.className = "price-change " + (changePct >= 0 ? "up" : "down");
+    const caveat = (!isReal && timeframe !== "5Y") ? " (illustrative, not real ticks)" : "";
+    changeEl.textContent = `${changePct>=0?"+":""}${changePct.toFixed(1)}% over ${timeframe}${caveat}`;
+  }
+  renderPriceChart("5Y");
+
+  el.querySelectorAll(".tf-toggle button").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      el.querySelectorAll(".tf-toggle button").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      renderPriceChart(btn.dataset.tf);
+    });
+  });
+
+  return el;
+}
+
+function renderTally(stocks){
+  const counts = { "Undervalued":0, "Fairly priced":0, "Overvalued":0 };
+  stocks.forEach(s => counts[calc(s).verdict]++);
+  const colors = { "Undervalued":"var(--good)", "Fairly priced":"var(--fair)", "Overvalued":"var(--bad)" };
+  document.getElementById("tally").innerHTML = Object.entries(counts)
+    .map(([k,v]) => `<span><span class="dot" style="background:${colors[k]}"></span>${v} ${k.toLowerCase()}</span>`)
+    .join("");
+}
+
+function renderAll(list){
+  const container = document.getElementById("stocks");
+  container.innerHTML = "";
+  list.forEach(s => container.appendChild(renderStock(s)));
+  renderTally(list);
+}
+
+function average(values){
+  const nums = values.filter(v => v !== null && v !== undefined && !Number.isNaN(v));
+  if (!nums.length) return null;
+  return nums.reduce((a,b) => a+b, 0) / nums.length;
+}
+
+function renderIndustrySnapshot(sector, list){
+  const el = document.getElementById("industrySnapshot");
+  if (sector === "All" || !list.length){ el.innerHTML = ""; return; }
+  const bench = list[0]; // sector benchmark fields are the same for every stock in a sector
+  const avgPE = average(list.map(s=>s.pe));
+  const avgPB = average(list.map(s=>s.pb));
+  const avgROE = average(list.map(s=>s.roe));
+  const fmt = v => v === null ? "n/a" : v.toFixed(2);
+  el.innerHTML = `
+    <div class="industry-snapshot">
+      <h3>${sector} &mdash; ${list.length} stock${list.length>1?"s":""} tracked</h3>
+      <div class="snap-row">Sector benchmark: <strong>P/E ${bench.sectorPE.toFixed(1)}×</strong> &middot; <strong>P/B ${bench.sectorPB.toFixed(1)}×</strong> &middot; <strong>ROE ${bench.sectorROE}%</strong></div>
+      <div class="snap-row">Your tracked average: <strong>P/E ${fmt(avgPE)}×</strong> &middot; <strong>P/B ${fmt(avgPB)}×</strong> &middot; <strong>ROE ${avgROE===null?"n/a":avgROE.toFixed(2)+"%"}</strong></div>
+    </div>`;
+}
+
+let ALL_STOCKS = [];
+
+function selectSector(sector){
+  document.querySelectorAll("#sectorFilter button").forEach(b=>{
+    b.classList.toggle("active", b.dataset.sector === sector);
+  });
+  const list = sector === "All" ? ALL_STOCKS : ALL_STOCKS.filter(s => s.sector === sector);
+  renderAll(list);
+  renderIndustrySnapshot(sector, list);
+}
+
+function initSectorFilter(stocks){
+  ALL_STOCKS = stocks;
+  const sectors = [...new Set(stocks.map(s => s.sector))];
+  const filterEl = document.getElementById("sectorFilter");
+  filterEl.innerHTML = "";
+
+  const makeBtn = (label, sector, count) => {
+    const b = document.createElement("button");
+    b.textContent = `${label} (${count})`;
+    b.dataset.sector = sector;
+    b.addEventListener("click", () => selectSector(sector));
+    return b;
+  };
+
+  filterEl.appendChild(makeBtn("All", "All", stocks.length));
+  sectors.forEach(sec => {
+    filterEl.appendChild(makeBtn(sec, sec, stocks.filter(s => s.sector === sec).length));
+  });
+  filterEl.querySelector("button").classList.add("active");
+  selectSector("All");
+}
+
+async function boot(){
+  let stocks = STOCKS;
+  try {
+    const res = await fetch("./data.json", { cache: "no-store" });
+    if (res.ok) {
+      const live = await res.json();
+      if (Array.isArray(live) && live.length) stocks = live;
+    }
+  } catch (e) { /* no data.json yet — using snapshot */ }
+
+  initSectorFilter(stocks);
+  document.getElementById("asOf").textContent =
+    stocks === STOCKS ? "Snapshot: late August 2026 (sample data)" : "Live data loaded from data.json";
+}
+
+boot();
+</script>
+</body>
+</html>
