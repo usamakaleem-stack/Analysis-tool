@@ -1,50 +1,46 @@
 #!/usr/bin/env python3
 """
-Fetches PSX price + fundamentals data and writes data.json for the
-PSX Fair Value Ledger dashboard (psx-fair-value-dashboard.html).
+Fetches the live PSX price and writes data.json for the PSX Fair Value
+Ledger dashboard (index.html).
 
 Place this file at:  scripts/fetch_psx_data.py   (in your repo)
 Run it with:          python scripts/fetch_psx_data.py
 It writes:            data.json   (next to index.html, at the repo root)
 
-DATA SOURCES
-------------
-1. scstrade.com company snapshot page
-   https://www.scstrade.com/stockscreening/SS_CompanySnapShot.aspx?symbol=<TICKER>
-   -> current price, P/E, EPS, Book Value/share, ROE, D/E, dividend yield.
-   CONFIRMED: this page's HTML was fetched and inspected directly (2026-08-31).
-   It renders each metrics section as a table where one row holds the labels
-   ("Price To Earning P/E Upto 2026 4Q", "Return On Equity Upto 2026 4Q", ...)
-   and the next row holds the matching values, in the same order. This script
-   flattens every such table into a label->value dict and looks values up by
-   a case-insensitive substring match, so it survives the quarter/year in the
-   label text changing every quarter.
+DESIGN
+------
+Only PRICE is fetched live. Everything else the dashboard needs —
+EPS, ROE, P/E, P/B, D/E, dividend yield — is plain arithmetic on top of
+Net Income, Equity, Shares Outstanding, Total Debt, and the last-declared
+dividend per share. Those five inputs only change once a year (or once a
+quarter) when a company actually reports earnings, so they live in
+STATIC_FUNDAMENTALS below as hand-entered numbers, refreshed a few times a
+year from each company's financial statements — not scraped.
 
-2. PSX's own data portal, dps.psx.com.pk
-   https://dps.psx.com.pk/timeseries/eod/<TICKER>  -> daily end-of-day price history
-   Several independent open-source PSX tools use this endpoint and describe
-   it as returning JSON. Its exact response shape was NOT verified against a
-   live response while writing this script (this environment could not reach
-   dps.psx.com.pk to check) — see fetch_price_history() below. Run this once
-   with PSX_DEBUG=1 and inspect the printed raw response for one symbol
-   before trusting the parsed output; adjust the parsing there if the shape
-   differs from what's assumed.
+This intentionally replaces an earlier version of this script that tried to
+scrape P/E, EPS, ROE etc. directly from a third-party ratios page. That
+approach turned out to be fragile in practice (the page's table structure
+didn't match what was assumed) and was solving a problem that didn't need
+solving: those ratios are derivable, not something that needs a live feed.
 
-WHAT THIS SCRIPT DOES NOT DO
------------------------------
-Five-year revenue / operating-expense history is NOT scraped live. The sites
-that show multi-year income statements render that table with JavaScript, not
-in the plain HTML a script like this can read. STATIC_FINANCIALS below holds
-hand-entered figures — refresh those by hand once or twice a year when annual
-reports come out, or replace this block once you have a better source
-(e.g. a paid financial-data API, or parsing the PDF annual reports directly).
+DATA SOURCE FOR LIVE PRICE
+--------------------------
+scstrade.com's company snapshot page:
+  https://www.scstrade.com/stockscreening/SS_CompanySnapShot.aspx?symbol=<TICKER>
+Confirmed working in a real GitHub Actions run (2026-09-01) — the price for
+all six configured stocks was fetched successfully.
+
+WHAT STILL NEEDS VERIFYING
+---------------------------
+fetch_eod_history() below, for the 1W/1M/5Y price trend charts, uses PSX's
+own timeseries endpoint. Its exact response shape was not confirmed against
+a live response — check the Action's log for "EOD response shape
+unexpected" and adjust that function if you see it.
 
 ROBUSTNESS
 ----------
-Every network call is wrapped so one symbol's failure (site down, HTML
-changed, rate limited) does not crash the whole run or blank out that
-stock's numbers — it logs the problem and falls back to the previous
-data.json value for that field.
+If the live price fetch fails for a symbol, the script keeps that symbol's
+previous price from data.json rather than writing a blank or wrong number.
 """
 
 import json
@@ -66,8 +62,7 @@ DEBUG = os.environ.get("PSX_DEBUG") == "1"
 OUT_PATH = Path(__file__).resolve().parent.parent / "data.json"
 
 # ---------------------------------------------------------------------------
-# Static config: sector benchmarks and things that aren't reliably scrapable
-# yet. Add a new stock by adding one entry here (and one in STATIC_FINANCIALS).
+# Sector benchmarks (used for the "vs sector average" comparisons).
 # ---------------------------------------------------------------------------
 BANK_DE_NOTE = (
     "Leverage ratios work differently for banks — deposits count as "
@@ -90,7 +85,24 @@ STOCK_CONFIG = {
              "sectorPE": 6.5, "sectorPB": 1.1, "sectorROE": 16, "sectorDE": None, "deNote": BANK_DE_NOTE},
 }
 
-# Manually curated 5-yr revenue/opex (PKR bn). See docstring above.
+# ---------------------------------------------------------------------------
+# HAND-MAINTAINED fundamentals. Refresh from each company's latest annual /
+# quarterly report — a few times a year, not live. Units: netIncome and
+# equity and totalDebt are in PKR billions; shares is in billions of shares;
+# dividendPerShare is in PKR per share (the last declared annual dividend).
+# totalDebt is null for banks — D/E isn't computed for them (see BANK_DE_NOTE).
+# ---------------------------------------------------------------------------
+STATIC_FUNDAMENTALS = {
+    "OGDC": {"netIncome": 155.56, "equity": 1370.6, "shares": 4.30,  "totalDebt": 0.0,   "dividendPerShare": 15.05},
+    "LUCK": {"netIncome": 76.96,  "equity": 318.0,  "shares": 1.47,  "totalDebt": 152.6, "dividendPerShare": 4.03},
+    "HBL":  {"netIncome": 65.71,  "equity": 436.4,  "shares": 1.47,  "totalDebt": None,  "dividendPerShare": 20.04},
+    "FFC":  {"netIncome": 85.36,  "equity": 248.4,  "shares": 1.39,  "totalDebt": 62.1,  "dividendPerShare": 40.60},
+    "MEBL": {"netIncome": 90.93,  "equity": 266.6,  "shares": 1.812, "totalDebt": None,  "dividendPerShare": 27.04},
+    "UBL":  {"netIncome": 126.12, "equity": 383.6,  "shares": 2.480, "totalDebt": None,  "dividendPerShare": 31.97},
+}
+
+# Manually curated 5-yr revenue/opex (PKR bn). Refresh by hand once or twice
+# a year — see the module docstring for why this isn't scraped.
 STATIC_FINANCIALS = {
     "OGDC": [{"year": 2021, "revenue": 210, "opex": 160, "netIncome": 50},
              {"year": 2022, "revenue": 290, "opex": 205, "netIncome": 85},
@@ -130,107 +142,53 @@ def log(msg):
 
 
 # ---------------------------------------------------------------------------
-# Fundamentals: scstrade.com company snapshot page
+# Live price
 # ---------------------------------------------------------------------------
-def parse_label_value_tables(soup):
-    """scstrade's snapshot page renders each metrics section as a table where
-    one <tr> holds the labels and the next <tr> holds the matching values, in
-    the same order (confirmed against a live fetch of the LUCK page on
-    2026-08-31). Flatten every such table on the page into one dict."""
-    data = {}
-    for table in soup.find_all("table"):
-        rows = table.find_all("tr")
-        for i in range(len(rows) - 1):
-            label_cells = rows[i].find_all(["th", "td"])
-            value_cells = rows[i + 1].find_all(["th", "td"])
-            if len(label_cells) == len(value_cells) and len(label_cells) > 1:
-                for lc, vc in zip(label_cells, value_cells):
-                    label = lc.get_text(strip=True)
-                    value = vc.get_text(strip=True)
-                    if label and value:
-                        data[label] = value
-    return data
-
-
-def find_value(data, *substrings):
-    """Case-insensitive substring match across all given fragments, e.g.
-    find_value(data, "price to earning") matches "Price To Earning P/E Upto 2026 4Q"."""
-    for label, value in data.items():
-        low = label.lower()
-        if all(s.lower() in low for s in substrings):
-            return value
-    return None
-
-
-def parse_number(raw):
-    if raw is None:
-        return None
-    cleaned = raw.replace("Rs.", "").replace("Rs", "").replace(",", "") \
-                 .replace("x", "").replace("%", "").strip()
-    try:
-        return float(cleaned)
-    except ValueError:
-        return None
-
-
-def fetch_fundamentals(symbol):
-    """Returns a dict of scraped fundamentals, or None if the fetch/parse fails."""
+def fetch_price(symbol):
+    """Returns the current price as a float, or None on failure. Confirmed
+    working against scstrade.com's snapshot page in a live Actions run."""
     url = f"https://www.scstrade.com/stockscreening/SS_CompanySnapShot.aspx?symbol={symbol.lower()}"
     try:
         r = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
         r.raise_for_status()
     except Exception as e:
-        log(f"{symbol}: fundamentals fetch failed: {e}")
+        log(f"{symbol}: price fetch failed: {e}")
         return None
 
-    soup = BeautifulSoup(r.text, "html.parser")
-    data = parse_label_value_tables(soup)
-    if DEBUG:
-        log(f"{symbol}: parsed {len(data)} label/value pairs")
-
-    eps  = parse_number(find_value(data, "last annual eps"))
-    pe   = parse_number(find_value(data, "price to earning"))
-    bvps = parse_number(find_value(data, "book value", "upto"))
-    pb   = parse_number(find_value(data, "price to book value"))
-    roe  = parse_number(find_value(data, "return on equity"))
-    de   = parse_number(find_value(data, "total debt to equity"))
-    divy = parse_number(find_value(data, "dividend yield"))
-
-    # The live price sits near the top of the page outside these label/value
-    # tables (e.g. "Rs. 437.33"), so pull the first "Rs. <number>" on the page.
-    price = None
-    m = re.search(r"Rs\.\s*([\d,]+\.\d+)", soup.get_text())
-    if m:
-        price = float(m.group(1).replace(",", ""))
-
-    result = {}
-    if price is not None: result["price"] = price
-    if eps is not None:   result["eps"] = eps
-    if pe is not None:    result["pe"] = pe
-    if bvps is not None:  result["bvps"] = bvps
-    if pb is not None:    result["pb"] = pb
-    if roe is not None:   result["roe"] = roe
-    if de is not None:    result["de"] = round(de / 100, 4)  # page gives a %, schema uses a ratio
-    if divy is not None:  result["divYield"] = divy
-
-    missing = [k for k in ("price", "eps", "pe", "bvps", "pb", "roe", "divYield") if k not in result]
-    if missing:
-        log(f"{symbol}: could not find {missing} on the page — label text may have "
-            f"changed. Run with PSX_DEBUG=1 and inspect the labels.")
-    return result or None
+    text = BeautifulSoup(r.text, "html.parser").get_text()
+    m = re.search(r"Rs\.\s*([\d,]+\.\d+)", text)
+    if not m:
+        log(f"{symbol}: could not find a price on the page")
+        return None
+    return float(m.group(1).replace(",", ""))
 
 
 # ---------------------------------------------------------------------------
-# Price history: PSX's own data portal
+# Computed fundamentals (arithmetic, not scraped)
+# ---------------------------------------------------------------------------
+def compute_fundamentals(symbol, price):
+    f = STATIC_FUNDAMENTALS[symbol]
+    eps = f["netIncome"] / f["shares"]
+    bvps = f["equity"] / f["shares"]
+    roe = (f["netIncome"] / f["equity"]) * 100
+    de = round(f["totalDebt"] / f["equity"], 4) if f["totalDebt"] is not None else None
+    result = {"eps": round(eps, 2), "bvps": round(bvps, 2), "roe": round(roe, 2), "de": de}
+    if price:
+        result["pe"] = round(price / eps, 2)
+        result["pb"] = round(price / bvps, 2)
+        result["divYield"] = round((f["dividendPerShare"] / price) * 100, 2)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Price history: PSX's own data portal (for the 1W/1M/5Y trend charts)
 # ---------------------------------------------------------------------------
 def fetch_eod_history(symbol):
     """Returns a list of (timestamp, close_price) tuples, newest last, or None.
 
-    NOT VERIFIED against a live response — see the module docstring. Several
-    independent scrapers use this URL and describe it as JSON; the exact key
-    names below are a best guess and may need adjusting. Run with
-    PSX_DEBUG=1 to print the raw response for the first symbol and fix the
-    parsing here if it doesn't match.
+    NOT VERIFIED against a live response yet. Run with PSX_DEBUG=1 and check
+    the Action's log for "raw EOD response" to see what actually comes back,
+    then adjust the parsing below if it doesn't match.
     """
     url = f"https://dps.psx.com.pk/timeseries/eod/{symbol}"
     try:
@@ -248,7 +206,6 @@ def fetch_eod_history(symbol):
     out = []
     try:
         for row in rows:
-            # common shape seen across similar PSX scrapers: [timestamp, close, volume]
             ts, close = row[0], row[1]
             out.append((int(ts), float(close)))
     except Exception as e:
@@ -260,22 +217,19 @@ def fetch_eod_history(symbol):
 
 
 def build_price_history(eod_rows):
-    """Turns raw (timestamp, close) rows into the 1W / 1M / 5Y series the
-    dashboard expects: [{"label": ..., "price": ...}, ...] each."""
     if not eod_rows:
         return None
 
     def fmt_date(ts, fmt):
-        return datetime.datetime.utcfromtimestamp(ts).strftime(fmt)
+        return datetime.datetime.fromtimestamp(ts, datetime.timezone.utc).strftime(fmt)
 
     last_week = eod_rows[-5:]
     last_month = eod_rows[-22:]
 
-    # one point per year for the last 5 years: closest trading day to Dec 31
     by_year = {}
     for ts, close in eod_rows:
-        year = datetime.datetime.utcfromtimestamp(ts).year
-        by_year[year] = (ts, close)  # keeps overwriting -> ends up as latest entry seen per year
+        year = datetime.datetime.fromtimestamp(ts, datetime.timezone.utc).year
+        by_year[year] = (ts, close)
     years = sorted(by_year.keys())[-5:]
     five_year = [by_year[y] for y in years]
 
@@ -314,18 +268,12 @@ def main():
             "financials": STATIC_FINANCIALS[symbol],
         }
 
-        fundamentals = fetch_fundamentals(symbol)
-        if fundamentals:
-            entry.update(fundamentals)
-        else:
-            log(f"{symbol}: keeping previous fundamentals (fetch failed)")
-            for k in ("price", "eps", "pe", "bvps", "pb", "roe", "divYield", "de"):
-                if k in prev:
-                    entry[k] = prev[k]
-
-        # banks: D/E is never meaningful, regardless of what got scraped
-        if cfg["sectorDE"] is None:
-            entry["de"] = None
+        price = fetch_price(symbol)
+        if price is None:
+            price = prev.get("price")
+            log(f"{symbol}: keeping previous price ({price}) — live fetch failed")
+        entry["price"] = price
+        entry.update(compute_fundamentals(symbol, price))
 
         eod_rows = fetch_eod_history(symbol)
         history = build_price_history(eod_rows)
