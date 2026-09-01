@@ -183,10 +183,26 @@ def compute_fundamentals(symbol, price):
 # ---------------------------------------------------------------------------
 # Price history: PSX's own data portal (for the 1W/1M/5Y trend charts)
 # ---------------------------------------------------------------------------
+EOD_HEADERS = {
+    **HEADERS,
+    "Referer": "https://dps.psx.com.pk/",
+    "Accept": "application/json, text/plain, */*",
+}
+EOD_MAX_ATTEMPTS = 3
+EOD_RETRY_DELAY_SECONDS = 4
+
+
 def fetch_eod_history(symbol):
     """Returns a list of (timestamp, close_price, volume) tuples, newest last,
     or None. volume is None per-row if the response doesn't include a third
     field.
+
+    Retries a few times with a short delay — connection drops here have been
+    observed in practice (2026-09-01) and often clear up on a second try,
+    whether that's transient network flakiness or basic bot-mitigation on
+    PSX's side reacting to a plain request. A Referer header is included
+    since some sites reject requests that don't look like they came from a
+    browser navigating their own site.
 
     NOT VERIFIED against a live response for the volume field specifically —
     the price fields were confirmed working in a real run (2026-09-01). Run
@@ -194,12 +210,19 @@ def fetch_eod_history(symbol):
     volume numbers look wrong or missing, and adjust the parsing below.
     """
     url = f"https://dps.psx.com.pk/timeseries/eod/{symbol}"
-    try:
-        r = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
-        r.raise_for_status()
-        payload = r.json()
-    except Exception as e:
-        log(f"{symbol}: EOD history fetch failed: {e}")
+    payload = None
+    for attempt in range(1, EOD_MAX_ATTEMPTS + 1):
+        try:
+            r = requests.get(url, headers=EOD_HEADERS, timeout=REQUEST_TIMEOUT)
+            r.raise_for_status()
+            payload = r.json()
+            break
+        except Exception as e:
+            log(f"{symbol}: EOD history fetch failed (attempt {attempt}/{EOD_MAX_ATTEMPTS}): {e}")
+            if attempt < EOD_MAX_ATTEMPTS:
+                time.sleep(EOD_RETRY_DELAY_SECONDS)
+
+    if payload is None:
         return None
 
     if DEBUG:
