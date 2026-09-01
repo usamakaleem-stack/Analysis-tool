@@ -35,7 +35,7 @@ jobs:
         run: |
           git config user.name "psx-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          if ! git diff --quiet -- data.json; then
+          if [ -n "$(git status --porcelain -- data.json)" ]; then
             git add data.json
             git commit -m "Update PSX data $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
