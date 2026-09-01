@@ -1,0 +1,1118 @@
+[
+  {
+    "ticker": "OGDC",
+    "name": "Oil & Gas Development Co.",
+    "sector": "Oil & Gas E&P",
+    "sectorPE": 7.5,
+    "sectorPB": 1.3,
+    "sectorROE": 13,
+    "sectorDE": 0.3,
+    "deNote": null,
+    "financials": [
+      {
+        "year": 2021,
+        "revenue": 210,
+        "opex": 160,
+        "netIncome": 50
+      },
+      {
+        "year": 2022,
+        "revenue": 290,
+        "opex": 205,
+        "netIncome": 85
+      },
+      {
+        "year": 2023,
+        "revenue": 330,
+        "opex": 230,
+        "netIncome": 100
+      },
+      {
+        "year": 2024,
+        "revenue": 365,
+        "opex": 250,
+        "netIncome": 115
+      },
+      {
+        "year": 2025,
+        "revenue": 390.4,
+        "opex": 234.8,
+        "netIncome": 155.56
+      }
+    ],
+    "price": 331.69,
+    "eps": 36.18,
+    "bvps": 318.74,
+    "roe": 11.35,
+    "de": 0.0,
+    "pe": 9.17,
+    "pb": 1.04,
+    "divYield": 4.54,
+    "priceHistory": {
+      "1W": [
+        {
+          "label": "Tue",
+          "price": 327.43
+        },
+        {
+          "label": "Thu",
+          "price": 323.88
+        },
+        {
+          "label": "Fri",
+          "price": 325.2
+        },
+        {
+          "label": "Mon",
+          "price": 328.7
+        },
+        {
+          "label": "Tue",
+          "price": 331.69
+        }
+      ],
+      "1M": [
+        {
+          "label": "30 Jul",
+          "price": 314.0
+        },
+        {
+          "label": "31 Jul",
+          "price": 314.04
+        },
+        {
+          "label": "03 Aug",
+          "price": 319.08
+        },
+        {
+          "label": "04 Aug",
+          "price": 314.11
+        },
+        {
+          "label": "05 Aug",
+          "price": 316.3
+        },
+        {
+          "label": "06 Aug",
+          "price": 318.49
+        },
+        {
+          "label": "07 Aug",
+          "price": 319.19
+        },
+        {
+          "label": "10 Aug",
+          "price": 323.77
+        },
+        {
+          "label": "11 Aug",
+          "price": 320.29
+        },
+        {
+          "label": "12 Aug",
+          "price": 318.92
+        },
+        {
+          "label": "13 Aug",
+          "price": 318.48
+        },
+        {
+          "label": "17 Aug",
+          "price": 321.3
+        },
+        {
+          "label": "18 Aug",
+          "price": 314.95
+        },
+        {
+          "label": "19 Aug",
+          "price": 314.33
+        },
+        {
+          "label": "20 Aug",
+          "price": 319.45
+        },
+        {
+          "label": "21 Aug",
+          "price": 325.82
+        },
+        {
+          "label": "24 Aug",
+          "price": 331.09
+        },
+        {
+          "label": "25 Aug",
+          "price": 327.43
+        },
+        {
+          "label": "27 Aug",
+          "price": 323.88
+        },
+        {
+          "label": "28 Aug",
+          "price": 325.2
+        },
+        {
+          "label": "31 Aug",
+          "price": 328.7
+        },
+        {
+          "label": "01 Sep",
+          "price": 331.69
+        }
+      ],
+      "5Y": [
+        {
+          "label": "2022",
+          "price": 79.66
+        },
+        {
+          "label": "2023",
+          "price": 112.45
+        },
+        {
+          "label": "2024",
+          "price": 227.26
+        },
+        {
+          "label": "2025",
+          "price": 281.08
+        },
+        {
+          "label": "2026",
+          "price": 331.69
+        }
+      ]
+    }
+  },
+  {
+    "ticker": "LUCK",
+    "name": "Lucky Cement Ltd.",
+    "sector": "Cement",
+    "sectorPE": 9.0,
+    "sectorPB": 2.0,
+    "sectorROE": 20,
+    "sectorDE": 0.6,
+    "deNote": null,
+    "financials": [
+      {
+        "year": 2021,
+        "revenue": 180,
+        "opex": 160,
+        "netIncome": 20
+      },
+      {
+        "year": 2022,
+        "revenue": 230,
+        "opex": 212,
+        "netIncome": 18
+      },
+      {
+        "year": 2023,
+        "revenue": 310,
+        "opex": 278,
+        "netIncome": 32
+      },
+      {
+        "year": 2024,
+        "revenue": 411.0,
+        "opex": 345.4,
+        "netIncome": 65.57
+      },
+      {
+        "year": 2025,
+        "revenue": 449.63,
+        "opex": 372.67,
+        "netIncome": 76.96
+      }
+    ],
+    "price": 433.39,
+    "eps": 52.35,
+    "bvps": 216.33,
+    "roe": 24.2,
+    "de": 0.4799,
+    "pe": 8.28,
+    "pb": 2.0,
+    "divYield": 0.93,
+    "priceHistory": {
+      "1W": [
+        {
+          "label": "Tue",
+          "price": 442.69
+        },
+        {
+          "label": "Thu",
+          "price": 440.9
+        },
+        {
+          "label": "Fri",
+          "price": 442.05
+        },
+        {
+          "label": "Mon",
+          "price": 437.33
+        },
+        {
+          "label": "Tue",
+          "price": 433.39
+        }
+      ],
+      "1M": [
+        {
+          "label": "30 Jul",
+          "price": 437.91
+        },
+        {
+          "label": "31 Jul",
+          "price": 440.91
+        },
+        {
+          "label": "03 Aug",
+          "price": 449.08
+        },
+        {
+          "label": "04 Aug",
+          "price": 443.4
+        },
+        {
+          "label": "05 Aug",
+          "price": 451.97
+        },
+        {
+          "label": "06 Aug",
+          "price": 458.63
+        },
+        {
+          "label": "07 Aug",
+          "price": 458.75
+        },
+        {
+          "label": "10 Aug",
+          "price": 454.36
+        },
+        {
+          "label": "11 Aug",
+          "price": 445.11
+        },
+        {
+          "label": "12 Aug",
+          "price": 446.47
+        },
+        {
+          "label": "13 Aug",
+          "price": 446.61
+        },
+        {
+          "label": "17 Aug",
+          "price": 443.37
+        },
+        {
+          "label": "18 Aug",
+          "price": 439.3
+        },
+        {
+          "label": "19 Aug",
+          "price": 437.2
+        },
+        {
+          "label": "20 Aug",
+          "price": 436.66
+        },
+        {
+          "label": "21 Aug",
+          "price": 440.41
+        },
+        {
+          "label": "24 Aug",
+          "price": 440.03
+        },
+        {
+          "label": "25 Aug",
+          "price": 442.69
+        },
+        {
+          "label": "27 Aug",
+          "price": 440.9
+        },
+        {
+          "label": "28 Aug",
+          "price": 442.05
+        },
+        {
+          "label": "31 Aug",
+          "price": 437.33
+        },
+        {
+          "label": "01 Sep",
+          "price": 433.39
+        }
+      ],
+      "5Y": [
+        {
+          "label": "2022",
+          "price": 89.31
+        },
+        {
+          "label": "2023",
+          "price": 157.39
+        },
+        {
+          "label": "2024",
+          "price": 220.09
+        },
+        {
+          "label": "2025",
+          "price": 474.96
+        },
+        {
+          "label": "2026",
+          "price": 433.39
+        }
+      ]
+    }
+  },
+  {
+    "ticker": "HBL",
+    "name": "Habib Bank Ltd.",
+    "sector": "Commercial Banking",
+    "sectorPE": 6.5,
+    "sectorPB": 1.1,
+    "sectorROE": 16,
+    "sectorDE": null,
+    "deNote": "Leverage ratios work differently for banks \u2014 deposits count as liabilities, so D/E isn't a useful safety signal here. Capital adequacy is the better check.",
+    "financials": [
+      {
+        "year": 2021,
+        "revenue": 180,
+        "opex": 155,
+        "netIncome": 25
+      },
+      {
+        "year": 2022,
+        "revenue": 220,
+        "opex": 185,
+        "netIncome": 35
+      },
+      {
+        "year": 2023,
+        "revenue": 270,
+        "opex": 225,
+        "netIncome": 45
+      },
+      {
+        "year": 2024,
+        "revenue": 315.53,
+        "opex": 257.73,
+        "netIncome": 57.8
+      },
+      {
+        "year": 2025,
+        "revenue": 353.73,
+        "opex": 288.02,
+        "netIncome": 65.71
+      }
+    ],
+    "price": 315.72,
+    "eps": 44.7,
+    "bvps": 296.87,
+    "roe": 15.06,
+    "de": null,
+    "pe": 7.06,
+    "pb": 1.06,
+    "divYield": 6.35,
+    "priceHistory": {
+      "1W": [
+        {
+          "label": "Tue",
+          "price": 318.63
+        },
+        {
+          "label": "Thu",
+          "price": 321.12
+        },
+        {
+          "label": "Fri",
+          "price": 325.79
+        },
+        {
+          "label": "Mon",
+          "price": 318.05
+        },
+        {
+          "label": "Tue",
+          "price": 315.72
+        }
+      ],
+      "1M": [
+        {
+          "label": "30 Jul",
+          "price": 301.3
+        },
+        {
+          "label": "31 Jul",
+          "price": 303.67
+        },
+        {
+          "label": "03 Aug",
+          "price": 309.24
+        },
+        {
+          "label": "04 Aug",
+          "price": 306.99
+        },
+        {
+          "label": "05 Aug",
+          "price": 322.04
+        },
+        {
+          "label": "06 Aug",
+          "price": 325.6
+        },
+        {
+          "label": "07 Aug",
+          "price": 324.62
+        },
+        {
+          "label": "10 Aug",
+          "price": 326.2
+        },
+        {
+          "label": "11 Aug",
+          "price": 333.71
+        },
+        {
+          "label": "12 Aug",
+          "price": 338.16
+        },
+        {
+          "label": "13 Aug",
+          "price": 334.31
+        },
+        {
+          "label": "17 Aug",
+          "price": 327.43
+        },
+        {
+          "label": "18 Aug",
+          "price": 325.45
+        },
+        {
+          "label": "19 Aug",
+          "price": 320.36
+        },
+        {
+          "label": "20 Aug",
+          "price": 317.14
+        },
+        {
+          "label": "21 Aug",
+          "price": 316.72
+        },
+        {
+          "label": "24 Aug",
+          "price": 316.61
+        },
+        {
+          "label": "25 Aug",
+          "price": 318.63
+        },
+        {
+          "label": "27 Aug",
+          "price": 321.12
+        },
+        {
+          "label": "28 Aug",
+          "price": 325.79
+        },
+        {
+          "label": "31 Aug",
+          "price": 318.05
+        },
+        {
+          "label": "01 Sep",
+          "price": 315.72
+        }
+      ],
+      "5Y": [
+        {
+          "label": "2022",
+          "price": 63.73
+        },
+        {
+          "label": "2023",
+          "price": 110.84
+        },
+        {
+          "label": "2024",
+          "price": 174.46
+        },
+        {
+          "label": "2025",
+          "price": 323.41
+        },
+        {
+          "label": "2026",
+          "price": 315.72
+        }
+      ]
+    }
+  },
+  {
+    "ticker": "FFC",
+    "name": "Fauji Fertilizer Co.",
+    "sector": "Fertilizer",
+    "sectorPE": 8.5,
+    "sectorPB": 3.0,
+    "sectorROE": 32,
+    "sectorDE": 0.4,
+    "deNote": null,
+    "financials": [
+      {
+        "year": 2021,
+        "revenue": 220,
+        "opex": 175,
+        "netIncome": 45
+      },
+      {
+        "year": 2022,
+        "revenue": 280,
+        "opex": 215,
+        "netIncome": 65
+      },
+      {
+        "year": 2023,
+        "revenue": 340,
+        "opex": 270,
+        "netIncome": 70
+      },
+      {
+        "year": 2024,
+        "revenue": 411.25,
+        "opex": 326.88,
+        "netIncome": 84.37
+      },
+      {
+        "year": 2025,
+        "revenue": 517.66,
+        "opex": 432.3,
+        "netIncome": 85.36
+      }
+    ],
+    "price": 552.45,
+    "eps": 61.41,
+    "bvps": 178.71,
+    "roe": 34.36,
+    "de": 0.25,
+    "pe": 9.0,
+    "pb": 3.09,
+    "divYield": 7.35,
+    "priceHistory": {
+      "1W": [
+        {
+          "label": "Tue",
+          "price": 547.74
+        },
+        {
+          "label": "Thu",
+          "price": 549.8
+        },
+        {
+          "label": "Fri",
+          "price": 550.03
+        },
+        {
+          "label": "Mon",
+          "price": 552.7
+        },
+        {
+          "label": "Tue",
+          "price": 552.45
+        }
+      ],
+      "1M": [
+        {
+          "label": "30 Jul",
+          "price": 565.07
+        },
+        {
+          "label": "31 Jul",
+          "price": 565.38
+        },
+        {
+          "label": "03 Aug",
+          "price": 572.84
+        },
+        {
+          "label": "04 Aug",
+          "price": 571.13
+        },
+        {
+          "label": "05 Aug",
+          "price": 578.5
+        },
+        {
+          "label": "06 Aug",
+          "price": 583.75
+        },
+        {
+          "label": "07 Aug",
+          "price": 583.48
+        },
+        {
+          "label": "10 Aug",
+          "price": 563.51
+        },
+        {
+          "label": "11 Aug",
+          "price": 554.3
+        },
+        {
+          "label": "12 Aug",
+          "price": 553.74
+        },
+        {
+          "label": "13 Aug",
+          "price": 557.16
+        },
+        {
+          "label": "17 Aug",
+          "price": 552.96
+        },
+        {
+          "label": "18 Aug",
+          "price": 545.72
+        },
+        {
+          "label": "19 Aug",
+          "price": 542.89
+        },
+        {
+          "label": "20 Aug",
+          "price": 543.53
+        },
+        {
+          "label": "21 Aug",
+          "price": 544.24
+        },
+        {
+          "label": "24 Aug",
+          "price": 544.83
+        },
+        {
+          "label": "25 Aug",
+          "price": 547.74
+        },
+        {
+          "label": "27 Aug",
+          "price": 549.8
+        },
+        {
+          "label": "28 Aug",
+          "price": 550.03
+        },
+        {
+          "label": "31 Aug",
+          "price": 552.7
+        },
+        {
+          "label": "01 Sep",
+          "price": 552.45
+        }
+      ],
+      "5Y": [
+        {
+          "label": "2022",
+          "price": 98.71
+        },
+        {
+          "label": "2023",
+          "price": 113.19
+        },
+        {
+          "label": "2024",
+          "price": 366.32
+        },
+        {
+          "label": "2025",
+          "price": 590.71
+        },
+        {
+          "label": "2026",
+          "price": 552.45
+        }
+      ]
+    }
+  },
+  {
+    "ticker": "MEBL",
+    "name": "Meezan Bank Ltd.",
+    "sector": "Islamic Banking",
+    "sectorPE": 6.5,
+    "sectorPB": 1.1,
+    "sectorROE": 16,
+    "sectorDE": null,
+    "deNote": "Leverage ratios work differently for banks \u2014 deposits count as liabilities, so D/E isn't a useful safety signal here. Capital adequacy is the better check.",
+    "financials": [
+      {
+        "year": 2021,
+        "revenue": 190,
+        "opex": 145,
+        "netIncome": 45
+      },
+      {
+        "year": 2022,
+        "revenue": 225,
+        "opex": 163,
+        "netIncome": 62
+      },
+      {
+        "year": 2023,
+        "revenue": 265,
+        "opex": 183,
+        "netIncome": 82
+      },
+      {
+        "year": 2024,
+        "revenue": 309.97,
+        "opex": 208.47,
+        "netIncome": 101.5
+      },
+      {
+        "year": 2025,
+        "revenue": 291.22,
+        "opex": 200.29,
+        "netIncome": 90.93
+      }
+    ],
+    "price": 572.3,
+    "eps": 50.18,
+    "bvps": 147.13,
+    "roe": 34.11,
+    "de": null,
+    "pe": 11.4,
+    "pb": 3.89,
+    "divYield": 4.72,
+    "priceHistory": {
+      "1W": [
+        {
+          "label": "Tue",
+          "price": 571.83
+        },
+        {
+          "label": "Thu",
+          "price": 569.4
+        },
+        {
+          "label": "Fri",
+          "price": 574.34
+        },
+        {
+          "label": "Mon",
+          "price": 578.15
+        },
+        {
+          "label": "Tue",
+          "price": 572.29
+        }
+      ],
+      "1M": [
+        {
+          "label": "30 Jul",
+          "price": 558.85
+        },
+        {
+          "label": "31 Jul",
+          "price": 560.91
+        },
+        {
+          "label": "03 Aug",
+          "price": 569.15
+        },
+        {
+          "label": "04 Aug",
+          "price": 573.7
+        },
+        {
+          "label": "05 Aug",
+          "price": 590.64
+        },
+        {
+          "label": "06 Aug",
+          "price": 587.92
+        },
+        {
+          "label": "07 Aug",
+          "price": 586.84
+        },
+        {
+          "label": "10 Aug",
+          "price": 593.54
+        },
+        {
+          "label": "11 Aug",
+          "price": 599.61
+        },
+        {
+          "label": "12 Aug",
+          "price": 591.13
+        },
+        {
+          "label": "13 Aug",
+          "price": 587.9
+        },
+        {
+          "label": "17 Aug",
+          "price": 587.28
+        },
+        {
+          "label": "18 Aug",
+          "price": 567.49
+        },
+        {
+          "label": "19 Aug",
+          "price": 562.9
+        },
+        {
+          "label": "20 Aug",
+          "price": 568.09
+        },
+        {
+          "label": "21 Aug",
+          "price": 569.91
+        },
+        {
+          "label": "24 Aug",
+          "price": 563.79
+        },
+        {
+          "label": "25 Aug",
+          "price": 571.83
+        },
+        {
+          "label": "27 Aug",
+          "price": 569.4
+        },
+        {
+          "label": "28 Aug",
+          "price": 574.34
+        },
+        {
+          "label": "31 Aug",
+          "price": 578.15
+        },
+        {
+          "label": "01 Sep",
+          "price": 572.29
+        }
+      ],
+      "5Y": [
+        {
+          "label": "2022",
+          "price": 99.54
+        },
+        {
+          "label": "2023",
+          "price": 161.36
+        },
+        {
+          "label": "2024",
+          "price": 241.97
+        },
+        {
+          "label": "2025",
+          "price": 444.38
+        },
+        {
+          "label": "2026",
+          "price": 572.29
+        }
+      ]
+    }
+  },
+  {
+    "ticker": "UBL",
+    "name": "United Bank Ltd.",
+    "sector": "Commercial Banking",
+    "sectorPE": 6.5,
+    "sectorPB": 1.1,
+    "sectorROE": 16,
+    "sectorDE": null,
+    "deNote": "Leverage ratios work differently for banks \u2014 deposits count as liabilities, so D/E isn't a useful safety signal here. Capital adequacy is the better check.",
+    "financials": [
+      {
+        "year": 2021,
+        "revenue": 104.5,
+        "opex": 77.5,
+        "netIncome": 27
+      },
+      {
+        "year": 2022,
+        "revenue": 138.8,
+        "opex": 93.8,
+        "netIncome": 45
+      },
+      {
+        "year": 2023,
+        "revenue": 184.3,
+        "opex": 119.3,
+        "netIncome": 65
+      },
+      {
+        "year": 2024,
+        "revenue": 244.47,
+        "opex": 163.95,
+        "netIncome": 80.52
+      },
+      {
+        "year": 2025,
+        "revenue": 428.91,
+        "opex": 302.79,
+        "netIncome": 126.12
+      }
+    ],
+    "price": 449.1,
+    "eps": 50.85,
+    "bvps": 154.68,
+    "roe": 32.88,
+    "de": null,
+    "pe": 8.83,
+    "pb": 2.9,
+    "divYield": 7.12,
+    "priceHistory": {
+      "1W": [
+        {
+          "label": "Tue",
+          "price": 456.97
+        },
+        {
+          "label": "Thu",
+          "price": 459.85
+        },
+        {
+          "label": "Fri",
+          "price": 458.7
+        },
+        {
+          "label": "Mon",
+          "price": 450.76
+        },
+        {
+          "label": "Tue",
+          "price": 449.1
+        }
+      ],
+      "1M": [
+        {
+          "label": "30 Jul",
+          "price": 473.96
+        },
+        {
+          "label": "31 Jul",
+          "price": 465.21
+        },
+        {
+          "label": "03 Aug",
+          "price": 467.69
+        },
+        {
+          "label": "04 Aug",
+          "price": 462.71
+        },
+        {
+          "label": "05 Aug",
+          "price": 471.44
+        },
+        {
+          "label": "06 Aug",
+          "price": 478.03
+        },
+        {
+          "label": "07 Aug",
+          "price": 475.74
+        },
+        {
+          "label": "10 Aug",
+          "price": 473.16
+        },
+        {
+          "label": "11 Aug",
+          "price": 469.57
+        },
+        {
+          "label": "12 Aug",
+          "price": 468.7
+        },
+        {
+          "label": "13 Aug",
+          "price": 469.23
+        },
+        {
+          "label": "17 Aug",
+          "price": 468.64
+        },
+        {
+          "label": "18 Aug",
+          "price": 461.98
+        },
+        {
+          "label": "19 Aug",
+          "price": 453.66
+        },
+        {
+          "label": "20 Aug",
+          "price": 447.93
+        },
+        {
+          "label": "21 Aug",
+          "price": 446.43
+        },
+        {
+          "label": "24 Aug",
+          "price": 444.89
+        },
+        {
+          "label": "25 Aug",
+          "price": 456.97
+        },
+        {
+          "label": "27 Aug",
+          "price": 459.85
+        },
+        {
+          "label": "28 Aug",
+          "price": 458.7
+        },
+        {
+          "label": "31 Aug",
+          "price": 450.76
+        },
+        {
+          "label": "01 Sep",
+          "price": 449.1
+        }
+      ],
+      "5Y": [
+        {
+          "label": "2022",
+          "price": 50.37
+        },
+        {
+          "label": "2023",
+          "price": 88.92
+        },
+        {
+          "label": "2024",
+          "price": 191.11
+        },
+        {
+          "label": "2025",
+          "price": 424.59
+        },
+        {
+          "label": "2026",
+          "price": 449.1
+        }
+      ]
+    }
+  }
+]
