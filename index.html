@@ -85,6 +85,23 @@
   .glossary-grid dt{ color:var(--ink); font-weight:600; }
   .glossary-grid dd{ margin:2px 0 0; }
 
+  .sector-filter{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px; }
+  .sector-filter button{
+    font-family:inherit; font-size:0.78rem; background:none;
+    border:1px solid var(--rule); padding:5px 12px; border-radius:14px;
+    cursor:pointer; color:var(--muted);
+  }
+  .sector-filter button.active{ background:var(--accent-soft); color:var(--accent); border-color:var(--accent); font-weight:600; }
+  .sector-filter button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .industry-snapshot{
+    background:var(--panel); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    padding:14px 18px; margin-bottom:18px;
+  }
+  .industry-snapshot h3{ font-family:'Source Serif 4', Georgia, serif; font-size:1.05rem; margin:0 0 8px; }
+  .industry-snapshot .snap-row{ font-size:0.85rem; color:var(--muted); margin-top:4px; }
+  .industry-snapshot .snap-row strong{ color:var(--ink); font-weight:600; }
+
   .stock{
     background:var(--panel);
     border:1px solid var(--rule);
@@ -192,6 +209,9 @@
       <div><dt>CAGR</dt><dd>Compound annual growth rate — the smoothed yearly growth rate over several years.</dd></div>
     </dl>
   </details>
+
+  <div id="sectorFilter" class="sector-filter"></div>
+  <div id="industrySnapshot"></div>
 
   <div id="stocks"></div>
 
@@ -606,6 +626,68 @@ function renderTally(stocks){
     .join("");
 }
 
+function renderAll(list){
+  const container = document.getElementById("stocks");
+  container.innerHTML = "";
+  list.forEach(s => container.appendChild(renderStock(s)));
+  renderTally(list);
+}
+
+function average(values){
+  const nums = values.filter(v => v !== null && v !== undefined && !Number.isNaN(v));
+  if (!nums.length) return null;
+  return nums.reduce((a,b) => a+b, 0) / nums.length;
+}
+
+function renderIndustrySnapshot(sector, list){
+  const el = document.getElementById("industrySnapshot");
+  if (sector === "All" || !list.length){ el.innerHTML = ""; return; }
+  const bench = list[0]; // sector benchmark fields are the same for every stock in a sector
+  const avgPE = average(list.map(s=>s.pe));
+  const avgPB = average(list.map(s=>s.pb));
+  const avgROE = average(list.map(s=>s.roe));
+  const fmt = v => v === null ? "n/a" : v.toFixed(2);
+  el.innerHTML = `
+    <div class="industry-snapshot">
+      <h3>${sector} &mdash; ${list.length} stock${list.length>1?"s":""} tracked</h3>
+      <div class="snap-row">Sector benchmark: <strong>P/E ${bench.sectorPE.toFixed(1)}×</strong> &middot; <strong>P/B ${bench.sectorPB.toFixed(1)}×</strong> &middot; <strong>ROE ${bench.sectorROE}%</strong></div>
+      <div class="snap-row">Your tracked average: <strong>P/E ${fmt(avgPE)}×</strong> &middot; <strong>P/B ${fmt(avgPB)}×</strong> &middot; <strong>ROE ${avgROE===null?"n/a":avgROE.toFixed(2)+"%"}</strong></div>
+    </div>`;
+}
+
+let ALL_STOCKS = [];
+
+function selectSector(sector){
+  document.querySelectorAll("#sectorFilter button").forEach(b=>{
+    b.classList.toggle("active", b.dataset.sector === sector);
+  });
+  const list = sector === "All" ? ALL_STOCKS : ALL_STOCKS.filter(s => s.sector === sector);
+  renderAll(list);
+  renderIndustrySnapshot(sector, list);
+}
+
+function initSectorFilter(stocks){
+  ALL_STOCKS = stocks;
+  const sectors = [...new Set(stocks.map(s => s.sector))];
+  const filterEl = document.getElementById("sectorFilter");
+  filterEl.innerHTML = "";
+
+  const makeBtn = (label, sector, count) => {
+    const b = document.createElement("button");
+    b.textContent = `${label} (${count})`;
+    b.dataset.sector = sector;
+    b.addEventListener("click", () => selectSector(sector));
+    return b;
+  };
+
+  filterEl.appendChild(makeBtn("All", "All", stocks.length));
+  sectors.forEach(sec => {
+    filterEl.appendChild(makeBtn(sec, sec, stocks.filter(s => s.sector === sec).length));
+  });
+  filterEl.querySelector("button").classList.add("active");
+  selectSector("All");
+}
+
 async function boot(){
   let stocks = STOCKS;
   try {
@@ -616,9 +698,7 @@ async function boot(){
     }
   } catch (e) { /* no data.json yet — using snapshot */ }
 
-  const container = document.getElementById("stocks");
-  stocks.forEach(s => container.appendChild(renderStock(s)));
-  renderTally(stocks);
+  initSectorFilter(stocks);
   document.getElementById("asOf").textContent =
     stocks === STOCKS ? "Snapshot: late August 2026 (sample data)" : "Live data loaded from data.json";
 }
