@@ -184,11 +184,14 @@ def compute_fundamentals(symbol, price):
 # Price history: PSX's own data portal (for the 1W/1M/5Y trend charts)
 # ---------------------------------------------------------------------------
 def fetch_eod_history(symbol):
-    """Returns a list of (timestamp, close_price) tuples, newest last, or None.
+    """Returns a list of (timestamp, close_price, volume) tuples, newest last,
+    or None. volume is None per-row if the response doesn't include a third
+    field.
 
-    NOT VERIFIED against a live response yet. Run with PSX_DEBUG=1 and check
-    the Action's log for "raw EOD response" to see what actually comes back,
-    then adjust the parsing below if it doesn't match.
+    NOT VERIFIED against a live response for the volume field specifically —
+    the price fields were confirmed working in a real run (2026-09-01). Run
+    with PSX_DEBUG=1 and check the Action's log for "raw EOD response" if
+    volume numbers look wrong or missing, and adjust the parsing below.
     """
     url = f"https://dps.psx.com.pk/timeseries/eod/{symbol}"
     try:
@@ -207,7 +210,8 @@ def fetch_eod_history(symbol):
     try:
         for row in rows:
             ts, close = row[0], row[1]
-            out.append((int(ts), float(close)))
+            volume = row[2] if len(row) > 2 else None
+            out.append((int(ts), float(close), float(volume) if volume is not None else None))
     except Exception as e:
         log(f"{symbol}: EOD response shape unexpected ({e}) — adjust fetch_eod_history().")
         return None
@@ -227,17 +231,31 @@ def build_price_history(eod_rows):
     last_month = eod_rows[-22:]
 
     by_year = {}
-    for ts, close in eod_rows:
+    for ts, close, _vol in eod_rows:
         year = datetime.datetime.fromtimestamp(ts, datetime.timezone.utc).year
         by_year[year] = (ts, close)
     years = sorted(by_year.keys())[-5:]
     five_year = [by_year[y] for y in years]
 
     return {
-        "1W": [{"label": fmt_date(ts, "%a"), "price": close} for ts, close in last_week],
-        "1M": [{"label": fmt_date(ts, "%d %b"), "price": close} for ts, close in last_month],
+        "1W": [{"label": fmt_date(ts, "%a"), "price": close} for ts, close, _vol in last_week],
+        "1M": [{"label": fmt_date(ts, "%d %b"), "price": close} for ts, close, _vol in last_month],
         "5Y": [{"label": fmt_date(ts, "%Y"), "price": close} for ts, close in five_year],
     }
+
+
+def build_volume_stats(eod_rows):
+    """Today's volume (most recent trading day) vs the 30-trading-day average.
+    Returns None if the feed didn't include volume at all."""
+    if not eod_rows:
+        return None
+    volumes = [v for _ts, _close, v in eod_rows if v is not None]
+    if not volumes:
+        return None
+    today = volumes[-1]
+    window = volumes[-22:]  # ~1 trading month, matches the 1M price chart window
+    avg30 = sum(window) / len(window)
+    return {"today": today, "avg30": round(avg30)}
 
 
 # ---------------------------------------------------------------------------
@@ -284,6 +302,15 @@ def main():
             entry["priceHistory"] = prev["priceHistory"]
         elif "price5Y" in prev:
             entry["price5Y"] = prev["price5Y"]
+
+        volume = build_volume_stats(eod_rows)
+        if volume:
+            entry["volume"] = volume
+        elif "volume" in prev:
+            log(f"{symbol}: keeping previous volume stats (feed had no volume this run)")
+            entry["volume"] = prev["volume"]
+        else:
+            log(f"{symbol}: no volume data available yet")
 
         output.append(entry)
         time.sleep(POLITE_DELAY_SECONDS)
