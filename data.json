@@ -40,14 +40,14 @@
         "netIncome": 155.56
       }
     ],
-    "price": 320.66,
+    "price": 319.53,
     "eps": 36.18,
     "bvps": 318.74,
     "roe": 11.35,
     "de": 0.0,
-    "pe": 8.86,
-    "pb": 1.01,
-    "divYield": 4.69,
+    "pe": 8.83,
+    "pb": 1.0,
+    "divYield": 4.71,
     "priceHistory": {
       "1W": [
         {
@@ -230,14 +230,14 @@
         "netIncome": 76.96
       }
     ],
-    "price": 428.47,
+    "price": 419.99,
     "eps": 52.35,
     "bvps": 216.33,
     "roe": 24.2,
     "de": 0.4799,
-    "pe": 8.18,
-    "pb": 1.98,
-    "divYield": 0.94,
+    "pe": 8.02,
+    "pb": 1.94,
+    "divYield": 0.96,
     "priceHistory": {
       "1W": [
         {
@@ -420,14 +420,14 @@
         "netIncome": 65.71
       }
     ],
-    "price": 311.77,
+    "price": 309.0,
     "eps": 44.7,
     "bvps": 296.87,
     "roe": 15.06,
     "de": null,
-    "pe": 6.97,
-    "pb": 1.05,
-    "divYield": 6.43,
+    "pe": 6.91,
+    "pb": 1.04,
+    "divYield": 6.49,
     "priceHistory": {
       "1W": [
         {
@@ -610,14 +610,14 @@
         "netIncome": 85.36
       }
     ],
-    "price": 545.5,
+    "price": 542.0,
     "eps": 61.41,
     "bvps": 178.71,
     "roe": 34.36,
     "de": 0.25,
-    "pe": 8.88,
-    "pb": 3.05,
-    "divYield": 7.44,
+    "pe": 8.83,
+    "pb": 3.03,
+    "divYield": 7.49,
     "priceHistory": {
       "1W": [
         {
@@ -800,14 +800,14 @@
         "netIncome": 90.93
       }
     ],
-    "price": 564.8,
+    "price": 561.4,
     "eps": 50.18,
     "bvps": 147.13,
     "roe": 34.11,
     "de": null,
-    "pe": 11.26,
-    "pb": 3.84,
-    "divYield": 4.79,
+    "pe": 11.19,
+    "pb": 3.82,
+    "divYield": 4.82,
     "priceHistory": {
       "1W": [
         {
@@ -990,14 +990,14 @@
         "netIncome": 126.12
       }
     ],
-    "price": 428.98,
+    "price": 419.97,
     "eps": 50.85,
     "bvps": 154.68,
     "roe": 32.88,
     "de": null,
-    "pe": 8.44,
-    "pb": 2.77,
-    "divYield": 7.45,
+    "pe": 8.26,
+    "pb": 2.72,
+    "divYield": 7.61,
     "priceHistory": {
       "1W": [
         {
