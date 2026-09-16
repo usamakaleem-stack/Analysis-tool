@@ -40,20 +40,16 @@
         "netIncome": 155.56
       }
     ],
-    "price": 314.84,
+    "price": 314.14,
     "eps": 36.18,
     "bvps": 318.74,
     "roe": 11.35,
     "de": 0.0,
-    "pe": 8.7,
+    "pe": 8.68,
     "pb": 0.99,
-    "divYield": 4.78,
+    "divYield": 4.79,
     "priceHistory": {
       "1W": [
-        {
-          "label": "Wed",
-          "price": 322.18
-        },
         {
           "label": "Thu",
           "price": 315.92
@@ -69,13 +65,13 @@
         {
           "label": "Tue",
           "price": 314.87
+        },
+        {
+          "label": "Wed",
+          "price": 314.14
         }
       ],
       "1M": [
-        {
-          "label": "13 Aug",
-          "price": 318.48
-        },
         {
           "label": "17 Aug",
           "price": 321.3
@@ -159,6 +155,10 @@
         {
           "label": "15 Sep",
           "price": 314.87
+        },
+        {
+          "label": "16 Sep",
+          "price": 314.14
         }
       ],
       "5Y": [
@@ -180,13 +180,13 @@
         },
         {
           "label": "2026",
-          "price": 314.87
+          "price": 314.14
         }
       ]
     },
     "volume": {
-      "today": 1499010.0,
-      "avg30": 4000075
+      "today": 2470185.0,
+      "avg30": 4013598
     }
   },
   {
@@ -230,20 +230,16 @@
         "netIncome": 76.96
       }
     ],
-    "price": 413.08,
+    "price": 408.92,
     "eps": 52.35,
     "bvps": 216.33,
     "roe": 24.2,
     "de": 0.4799,
-    "pe": 7.89,
-    "pb": 1.91,
-    "divYield": 0.98,
+    "pe": 7.81,
+    "pb": 1.89,
+    "divYield": 0.99,
     "priceHistory": {
       "1W": [
-        {
-          "label": "Wed",
-          "price": 415.36
-        },
         {
           "label": "Thu",
           "price": 408.03
@@ -259,13 +255,13 @@
         {
           "label": "Tue",
           "price": 413.87
+        },
+        {
+          "label": "Wed",
+          "price": 408.92
         }
       ],
       "1M": [
-        {
-          "label": "13 Aug",
-          "price": 446.61
-        },
         {
           "label": "17 Aug",
           "price": 443.37
@@ -349,6 +345,10 @@
         {
           "label": "15 Sep",
           "price": 413.87
+        },
+        {
+          "label": "16 Sep",
+          "price": 408.92
         }
       ],
       "5Y": [
@@ -370,13 +370,13 @@
         },
         {
           "label": "2026",
-          "price": 413.87
+          "price": 408.92
         }
       ]
     },
     "volume": {
-      "today": 781195.0,
-      "avg30": 1024922
+      "today": 570464.0,
+      "avg30": 1019210
     }
   },
   {
@@ -420,20 +420,16 @@
         "netIncome": 65.71
       }
     ],
-    "price": 292.17,
+    "price": 294.15,
     "eps": 44.7,
     "bvps": 296.87,
     "roe": 15.06,
     "de": null,
-    "pe": 6.54,
-    "pb": 0.98,
-    "divYield": 6.86,
+    "pe": 6.58,
+    "pb": 0.99,
+    "divYield": 6.81,
     "priceHistory": {
       "1W": [
-        {
-          "label": "Wed",
-          "price": 308.51
-        },
         {
           "label": "Thu",
           "price": 305.19
@@ -449,13 +445,13 @@
         {
           "label": "Tue",
           "price": 298.79
+        },
+        {
+          "label": "Wed",
+          "price": 294.14
         }
       ],
       "1M": [
-        {
-          "label": "13 Aug",
-          "price": 334.31
-        },
         {
           "label": "17 Aug",
           "price": 327.43
@@ -539,6 +535,10 @@
         {
           "label": "15 Sep",
           "price": 298.79
+        },
+        {
+          "label": "16 Sep",
+          "price": 294.14
         }
       ],
       "5Y": [
@@ -560,13 +560,13 @@
         },
         {
           "label": "2026",
-          "price": 298.79
+          "price": 294.14
         }
       ]
     },
     "volume": {
-      "today": 395914.0,
-      "avg30": 1210700
+      "today": 1681546.0,
+      "avg30": 1210743
     }
   },
   {
@@ -610,20 +610,16 @@
         "netIncome": 85.36
       }
     ],
-    "price": 532.0,
+    "price": 531.76,
     "eps": 61.41,
     "bvps": 178.71,
     "roe": 34.36,
     "de": 0.25,
     "pe": 8.66,
     "pb": 2.98,
-    "divYield": 7.63,
+    "divYield": 7.64,
     "priceHistory": {
       "1W": [
-        {
-          "label": "Wed",
-          "price": 541.38
-        },
         {
           "label": "Thu",
           "price": 532.34
@@ -639,13 +635,13 @@
         {
           "label": "Tue",
           "price": 540.41
+        },
+        {
+          "label": "Wed",
+          "price": 531.76
         }
       ],
       "1M": [
-        {
-          "label": "13 Aug",
-          "price": 557.16
-        },
         {
           "label": "17 Aug",
           "price": 552.96
@@ -729,6 +725,10 @@
         {
           "label": "15 Sep",
           "price": 540.41
+        },
+        {
+          "label": "16 Sep",
+          "price": 531.76
         }
       ],
       "5Y": [
@@ -750,13 +750,13 @@
         },
         {
           "label": "2026",
-          "price": 540.41
+          "price": 531.76
         }
       ]
     },
     "volume": {
-      "today": 582743.0,
-      "avg30": 614662
+      "today": 834691.0,
+      "avg30": 596104
     }
   },
   {
@@ -800,20 +800,16 @@
         "netIncome": 90.93
       }
     ],
-    "price": 543.89,
+    "price": 541.71,
     "eps": 50.18,
     "bvps": 147.13,
     "roe": 34.11,
     "de": null,
-    "pe": 10.84,
-    "pb": 3.7,
-    "divYield": 4.97,
+    "pe": 10.79,
+    "pb": 3.68,
+    "divYield": 4.99,
     "priceHistory": {
       "1W": [
-        {
-          "label": "Wed",
-          "price": 556.12
-        },
         {
           "label": "Thu",
           "price": 536.21
@@ -829,13 +825,13 @@
         {
           "label": "Tue",
           "price": 543.02
+        },
+        {
+          "label": "Wed",
+          "price": 541.71
         }
       ],
       "1M": [
-        {
-          "label": "13 Aug",
-          "price": 587.9
-        },
         {
           "label": "17 Aug",
           "price": 587.28
@@ -919,6 +915,10 @@
         {
           "label": "15 Sep",
           "price": 543.02
+        },
+        {
+          "label": "16 Sep",
+          "price": 541.71
         }
       ],
       "5Y": [
@@ -940,13 +940,13 @@
         },
         {
           "label": "2026",
-          "price": 543.02
+          "price": 541.71
         }
       ]
     },
     "volume": {
-      "today": 1525266.0,
-      "avg30": 766939
+      "today": 410517.0,
+      "avg30": 754579
     }
   },
   {
@@ -990,20 +990,16 @@
         "netIncome": 126.12
       }
     ],
-    "price": 418.9,
+    "price": 419.83,
     "eps": 50.85,
     "bvps": 154.68,
     "roe": 32.88,
     "de": null,
-    "pe": 8.24,
+    "pe": 8.26,
     "pb": 2.71,
-    "divYield": 7.63,
+    "divYield": 7.61,
     "priceHistory": {
       "1W": [
-        {
-          "label": "Wed",
-          "price": 426.07
-        },
         {
           "label": "Thu",
           "price": 422.5
@@ -1019,13 +1015,13 @@
         {
           "label": "Tue",
           "price": 418.96
+        },
+        {
+          "label": "Wed",
+          "price": 419.83
         }
       ],
       "1M": [
-        {
-          "label": "13 Aug",
-          "price": 469.23
-        },
         {
           "label": "17 Aug",
           "price": 468.64
@@ -1109,6 +1105,10 @@
         {
           "label": "15 Sep",
           "price": 418.96
+        },
+        {
+          "label": "16 Sep",
+          "price": 419.83
         }
       ],
       "5Y": [
@@ -1130,13 +1130,13 @@
         },
         {
           "label": "2026",
-          "price": 418.96
+          "price": 419.83
         }
       ]
     },
     "volume": {
-      "today": 780031.0,
-      "avg30": 1289841
+      "today": 1903625.0,
+      "avg30": 1363098
     }
   }
 ]
