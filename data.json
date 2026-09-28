@@ -40,14 +40,14 @@
         "netIncome": 155.56
       }
     ],
-    "price": 316.24,
+    "price": 318.16,
     "eps": 36.18,
     "bvps": 318.74,
     "roe": 11.35,
     "de": 0.0,
-    "pe": 8.74,
-    "pb": 0.99,
-    "divYield": 4.76,
+    "pe": 8.79,
+    "pb": 1.0,
+    "divYield": 4.73,
     "priceHistory": {
       "1W": [
         {
@@ -230,13 +230,13 @@
         "netIncome": 76.96
       }
     ],
-    "price": 416.62,
+    "price": 413.7,
     "eps": 52.35,
     "bvps": 216.33,
     "roe": 24.2,
     "de": 0.4799,
-    "pe": 7.96,
-    "pb": 1.93,
+    "pe": 7.9,
+    "pb": 1.91,
     "divYield": 0.97,
     "priceHistory": {
       "1W": [
@@ -420,14 +420,14 @@
         "netIncome": 65.71
       }
     ],
-    "price": 307.54,
+    "price": 304.0,
     "eps": 44.7,
     "bvps": 296.87,
     "roe": 15.06,
     "de": null,
-    "pe": 6.88,
-    "pb": 1.04,
-    "divYield": 6.52,
+    "pe": 6.8,
+    "pb": 1.02,
+    "divYield": 6.59,
     "priceHistory": {
       "1W": [
         {
@@ -610,14 +610,14 @@
         "netIncome": 85.36
       }
     ],
-    "price": 540.26,
+    "price": 543.49,
     "eps": 61.41,
     "bvps": 178.71,
     "roe": 34.36,
     "de": 0.25,
-    "pe": 8.8,
-    "pb": 3.02,
-    "divYield": 7.51,
+    "pe": 8.85,
+    "pb": 3.04,
+    "divYield": 7.47,
     "priceHistory": {
       "1W": [
         {
@@ -800,12 +800,12 @@
         "netIncome": 90.93
       }
     ],
-    "price": 548.12,
+    "price": 548.99,
     "eps": 50.18,
     "bvps": 147.13,
     "roe": 34.11,
     "de": null,
-    "pe": 10.92,
+    "pe": 10.94,
     "pb": 3.73,
     "divYield": 4.93,
     "priceHistory": {
@@ -990,14 +990,14 @@
         "netIncome": 126.12
       }
     ],
-    "price": 427.47,
+    "price": 424.94,
     "eps": 50.85,
     "bvps": 154.68,
     "roe": 32.88,
     "de": null,
-    "pe": 8.41,
-    "pb": 2.76,
-    "divYield": 7.48,
+    "pe": 8.36,
+    "pb": 2.75,
+    "divYield": 7.52,
     "priceHistory": {
       "1W": [
         {
