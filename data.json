@@ -40,14 +40,14 @@
         "netIncome": 155.56
       }
     ],
-    "price": 310.34,
+    "price": 317.5,
     "eps": 36.18,
     "bvps": 318.74,
     "roe": 11.35,
     "de": 0.0,
-    "pe": 8.58,
-    "pb": 0.97,
-    "divYield": 4.85,
+    "pe": 8.78,
+    "pb": 1.0,
+    "divYield": 4.74,
     "priceHistory": {
       "1W": [
         {
@@ -230,14 +230,14 @@
         "netIncome": 76.96
       }
     ],
-    "price": 407.54,
+    "price": 411.0,
     "eps": 52.35,
     "bvps": 216.33,
     "roe": 24.2,
     "de": 0.4799,
-    "pe": 7.78,
-    "pb": 1.88,
-    "divYield": 0.99,
+    "pe": 7.85,
+    "pb": 1.9,
+    "divYield": 0.98,
     "priceHistory": {
       "1W": [
         {
@@ -420,14 +420,14 @@
         "netIncome": 65.71
       }
     ],
-    "price": 295.21,
+    "price": 302.0,
     "eps": 44.7,
     "bvps": 296.87,
     "roe": 15.06,
     "de": null,
-    "pe": 6.6,
-    "pb": 0.99,
-    "divYield": 6.79,
+    "pe": 6.76,
+    "pb": 1.02,
+    "divYield": 6.64,
     "priceHistory": {
       "1W": [
         {
@@ -610,14 +610,14 @@
         "netIncome": 85.36
       }
     ],
-    "price": 534.46,
+    "price": 538.0,
     "eps": 61.41,
     "bvps": 178.71,
     "roe": 34.36,
     "de": 0.25,
-    "pe": 8.7,
-    "pb": 2.99,
-    "divYield": 7.6,
+    "pe": 8.76,
+    "pb": 3.01,
+    "divYield": 7.55,
     "priceHistory": {
       "1W": [
         {
@@ -800,14 +800,14 @@
         "netIncome": 90.93
       }
     ],
-    "price": 548.11,
+    "price": 552.5,
     "eps": 50.18,
     "bvps": 147.13,
     "roe": 34.11,
     "de": null,
-    "pe": 10.92,
-    "pb": 3.73,
-    "divYield": 4.93,
+    "pe": 11.01,
+    "pb": 3.76,
+    "divYield": 4.89,
     "priceHistory": {
       "1W": [
         {
@@ -990,14 +990,14 @@
         "netIncome": 126.12
       }
     ],
-    "price": 414.19,
+    "price": 420.5,
     "eps": 50.85,
     "bvps": 154.68,
     "roe": 32.88,
     "de": null,
-    "pe": 8.14,
-    "pb": 2.68,
-    "divYield": 7.72,
+    "pe": 8.27,
+    "pb": 2.72,
+    "divYield": 7.6,
     "priceHistory": {
       "1W": [
         {
