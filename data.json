@@ -40,14 +40,14 @@
         "netIncome": 155.56
       }
     ],
-    "price": 300.5,
+    "price": 298.45,
     "eps": 36.18,
     "bvps": 318.74,
     "roe": 11.35,
     "de": 0.0,
-    "pe": 8.31,
+    "pe": 8.25,
     "pb": 0.94,
-    "divYield": 5.01,
+    "divYield": 5.04,
     "priceHistory": {
       "1W": [
         {
@@ -230,14 +230,14 @@
         "netIncome": 76.96
       }
     ],
-    "price": 393.97,
+    "price": 389.45,
     "eps": 52.35,
     "bvps": 216.33,
     "roe": 24.2,
     "de": 0.4799,
-    "pe": 7.53,
-    "pb": 1.82,
-    "divYield": 1.02,
+    "pe": 7.44,
+    "pb": 1.8,
+    "divYield": 1.03,
     "priceHistory": {
       "1W": [
         {
@@ -420,14 +420,14 @@
         "netIncome": 65.71
       }
     ],
-    "price": 285.75,
+    "price": 281.0,
     "eps": 44.7,
     "bvps": 296.87,
     "roe": 15.06,
     "de": null,
-    "pe": 6.39,
-    "pb": 0.96,
-    "divYield": 7.01,
+    "pe": 6.29,
+    "pb": 0.95,
+    "divYield": 7.13,
     "priceHistory": {
       "1W": [
         {
@@ -610,14 +610,14 @@
         "netIncome": 85.36
       }
     ],
-    "price": 532.49,
+    "price": 532.1,
     "eps": 61.41,
     "bvps": 178.71,
     "roe": 34.36,
     "de": 0.25,
-    "pe": 8.67,
+    "pe": 8.66,
     "pb": 2.98,
-    "divYield": 7.62,
+    "divYield": 7.63,
     "priceHistory": {
       "1W": [
         {
@@ -800,14 +800,14 @@
         "netIncome": 90.93
       }
     ],
-    "price": 545.05,
+    "price": 538.0,
     "eps": 50.18,
     "bvps": 147.13,
     "roe": 34.11,
     "de": null,
-    "pe": 10.86,
-    "pb": 3.7,
-    "divYield": 4.96,
+    "pe": 10.72,
+    "pb": 3.66,
+    "divYield": 5.03,
     "priceHistory": {
       "1W": [
         {
@@ -990,14 +990,14 @@
         "netIncome": 126.12
       }
     ],
-    "price": 400.04,
+    "price": 397.47,
     "eps": 50.85,
     "bvps": 154.68,
     "roe": 32.88,
     "de": null,
-    "pe": 7.87,
-    "pb": 2.59,
-    "divYield": 7.99,
+    "pe": 7.82,
+    "pb": 2.57,
+    "divYield": 8.04,
     "priceHistory": {
       "1W": [
         {
